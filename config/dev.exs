@@ -68,8 +68,8 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
 config :las, Las.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "user1",
+  password: "mohWooz5wong",
   database: "las_dev",
   hostname: "localhost",
   pool_size: 10

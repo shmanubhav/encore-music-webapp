@@ -11,8 +11,8 @@ config :logger, level: :warn
 
 # Configure your database
 config :las, Las.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "user1",
+  password: "mohWooz5wong",
   database: "las_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
