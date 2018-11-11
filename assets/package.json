@@ -6,8 +6,17 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "fs": "0.0.1-security",
+    "howler": "^2.0.15",
+    "net": "^1.0.2",
     "phoenix": "file:../deps/phoenix",
-    "phoenix_html": "file:../deps/phoenix_html"
+    "phoenix_html": "file:../deps/phoenix_html",
+    "querystring": "^0.2.0",
+    "request": "^2.88.0",
+    "tls": "0.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -19,6 +28,11 @@
     "optimize-css-assets-webpack-plugin": "^4.0.0",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "4.4.0",
-    "webpack-cli": "^2.0.10"
+    "webpack-cli": "^2.0.10",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "fs": "0.0.1-security",
+    "net": "^1.0.2"
   }
 }

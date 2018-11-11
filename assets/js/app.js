@@ -2,7 +2,8 @@
 // The MiniCssExtractPlugin is used to separate it out into
 // its own CSS file.
 import css from "../css/app.css"
-
+import Howl from 'howler'
+import Howler from 'howler'
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
 // in "webpack.config.js".
@@ -30,9 +31,9 @@ var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
-var client_id = ''; // Your client id
-var client_secret = ''; // Your secret
-var redirect_uri = '/'; // Your redirect uri
+var client_id = '1563cdbe2b284610844bce69f7367ae7'; // Your client id
+var client_secret = '732f4820118c497f82ce901155c25708'; // Your secret
+var redirect_uri = 'http://localhost:4000/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -160,5 +161,7 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-console.log('Listening on 8888');
-app.listen(8888);
+console.log('Listening on 4000');
+app.listen(4000);
+var sound = new Howl({src: ['kasbo.mp3']});
+sound.play();

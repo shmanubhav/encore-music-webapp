@@ -34,6 +34,13 @@ module.exports = (env, options) => ({
       }
     ]
   },
+  target: "node",
+  node: {
+    fs: "empty",
+    net: "empty",
+    tls: "empty",
+    express: "empty"
+  },
   plugins: [
     new MiniCssExtractPlugin({ filename: '../css/app.css' }),
     new CopyWebpackPlugin([{ from: 'static/', to: '../' }])

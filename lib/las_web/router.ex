@@ -2,7 +2,7 @@ defmodule LasWeb.Router do
   use LasWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
+    plug :accepts, ["html", "js"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
