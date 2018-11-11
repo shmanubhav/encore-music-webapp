@@ -19,6 +19,11 @@ module.exports = (env, options) => ({
     filename: 'app.js',
     path: path.resolve(__dirname, '../priv/static/js')
   },
+  node: {
+   fs: "empty",
+   net: "empty",
+   tls: "empty"
+  },
   module: {
     rules: [
       {
