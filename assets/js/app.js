@@ -30,8 +30,8 @@ var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
-var client_id = ''; // Your client id
-var client_secret = ''; // Your secret
+var client_id = '89c07b366d364483851512fc85002c6a'; // Your client id
+var client_secret = 'ba300e1d5c814ccd9514234908283848'; // Your secret
 var redirect_uri = '/'; // Your redirect uri
 
 /**
