@@ -19,6 +19,11 @@ module.exports = (env, options) => ({
     filename: 'app.js',
     path: path.resolve(__dirname, '../priv/static/js')
   },
+  node: {
+   fs: "empty",
+   net: "empty",
+   tls: "empty"
+  },
   module: {
     rules: [
       {
@@ -33,6 +38,13 @@ module.exports = (env, options) => ({
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
+  },
+  target: "node",
+  node: {
+    fs: "empty",
+    net: "empty",
+    tls: "empty",
+    express: "empty"
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: '../css/app.css' }),

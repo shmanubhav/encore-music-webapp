@@ -2,7 +2,6 @@
 // The MiniCssExtractPlugin is used to separate it out into
 // its own CSS file.
 import css from "../css/app.css"
-
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
 // in "webpack.config.js".
@@ -32,7 +31,7 @@ var cookieParser = require('cookie-parser');
 
 var client_id = ''; // Your client id
 var client_secret = ''; // Your secret
-var redirect_uri = '/'; // Your redirect uri
+var redirect_uri = 'https://api.spotify.com/login/oauth/authorize'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -160,5 +159,7 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-console.log('Listening on 8888');
-app.listen(8888);
+console.log('Listening on 4000');
+app.listen(4000);
+var sound = new Howl({src: ['kasbo.mp3']});
+sound.play();
