@@ -24,7 +24,7 @@ defmodule LasWeb.Router do
     get "/login", PageController, :login
   end
 
-  scope "/auth", OAuth2Example do
+  scope "/auth", LasWeb do
     pipe_through :browser
 
     get "/:provider", AuthController, :index

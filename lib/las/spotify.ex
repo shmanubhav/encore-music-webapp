@@ -4,6 +4,7 @@ defmodule Spotify do
   # Public API
 
   def client do
+    IO.puts("Got to spotify ex client public API")
     OAuth2.Client.new([
       strategy: __MODULE__,
       client_id: System.get_env("SPOTIFY_CLIENT_ID"),
@@ -16,7 +17,7 @@ defmodule Spotify do
   end
 
   def authorize_url! do
-    OAuth2.Client.authorize_url!(client(), scope: "user,public_repo")
+    OAuth2.Client.authorize_url!(client(), scope: "user-read-private")
   end
 
   # you can pass options to the underlying http library via `opts` parameter
