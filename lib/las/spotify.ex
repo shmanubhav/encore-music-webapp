@@ -11,7 +11,7 @@ defmodule Spotify do
       client_secret: System.get_env("SPOTIFY_CLIENT_SECRET"),
       redirect_uri: "http://localhost:4000/auth/callback",
       site: "https://api.spotify.com",
-      authorize_url: "https://spotify.com/login/oauth/authorize",
+      authorize_url: "https://accounts.spotify.com/authorize",
       token_url: "https://spotify.com/login/oauth/access_token"
     ])
   end
