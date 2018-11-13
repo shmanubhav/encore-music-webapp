@@ -26,6 +26,24 @@ defmodule Spotify do
     OAuth2.Client.get_token!(client(), body(params), headers, opts)
   end
 
+# FROM THE API DOCS
+
+# https://developer.spotify.com/documentation/general/guides/authorization-guide/#authorization-code-flow
+
+# REQUEST BODY PARAMETER	VALUE
+# grant_type	Required.
+# As defined in the OAuth 2.0 specification, this field must contain the value "authorization_code".
+# code	Required.
+# The authorization code returned from the initial request to the Account /authorize endpoint.
+# redirect_uri	Required.
+# This parameter is used for validation only (there is no actual redirection). The value of this parameter must exactly match the value of redirect_uri supplied when requesting the authorization code.
+# HEADER PARAMETER	VALUE
+# Authorization	Required.
+# Base 64 encoded string that contains the client ID and client secret key. The field must have the format: Authorization: Basic *<base64 encoded client_id:client_secret>*
+# *** An alternative way to send the client id and secret is as request parameters (client_id and client_secret) in the POST body, instead of sending them base64-encoded in the header.
+
+# On success, the response from the Spotify Accounts service has the status code 200 OK in the response header, and the following JSON data in the response body:
+
   # I assume these parameters will get sent in as the request body parametesrs.
   # In this case,
   def body(code) do
