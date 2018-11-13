@@ -63,7 +63,6 @@ defmodule LasWeb.AuthController do
   end
 
   defp get_token!("spotify", code) do
-    #IO.puts("Auth Configu Get_token calling spotify's get token passing in code")
     Spotify.get_token!(code)
   end
 

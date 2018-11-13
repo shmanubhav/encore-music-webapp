@@ -14,39 +14,32 @@ defmodule Spotify do
       token_url: "https://accounts.spotify.com/api/token"
     ])
   end
-  #https://accounts.spotify.com/api/token
-  # https://spotify.com/login/oauth/access_token
 
   def authorize_url! do
     OAuth2.Client.authorize_url!(client(), scope: "user-read-private")
   end
 
   # you can pass options to the underlying http library via `opts` parameter
-  def get_token!(params \\ [], _headers \\ []) do
+  def get_token!(params \\ [], headers \\ [], opts \\ []) do
     IO.puts("In spotify.ex get token")
-    IO.inspect(params)
-
-    # cid = Base.decode64!(client().client_id)
-    # cs = Base.decode64!(client().client_secret)
-    IO.inspect(body(params))
-
-    # IO.inspect(Keyword.merge(params, grant_type: "authorization_code", redirect_uri: client().redirect_uri))
-    #OAuth2.Client.get_token!(client(), Keyword.merge(params, grant_type: "authorization_code", redirect_uri: client().redirect_uri), %{Authorization: "Basic" <>cid<>":"<>cs})
-    #OAuth2.Client.get_token!(client(), Keyword.merge(params, grant_type: "authorization_code", redirect_uri: client().redirect_uri), (Keyword.merge(headers, Authorization: "Basic" <>cid<>":"<>cs)))
-    OAuth2.Client.get_token!(client(), body(params))
+    #IO.inspect(Keyword.merge(params, grant_type: "authorization_code")); #, redirect_uri: client().redirect_uri, client_id: client().client_id, client_secret: client().client_secret))
+    OAuth2.Client.get_token!(client(), body(params), headers, opts)
   end
 
+  # I assume these parameters will get sent in as the request body parametesrs.
+  # In this case,
   def body(code) do
     [
       {:code, code},
       {:grant_type, "authorization_code"},
       {:redirect_uri, client().redirect_uri},
-      {:client_id, client().client_id},
-      {:client_secret, client().client_secret}
+      {:client_id, client().client_id},           # This can also get sent in as header params
+      {:client_secret, client().client_secret}    # This can also get sent in as header params
     ]
   end
 
-  def encoded_credentials, do: :base64.encode("#{client().client_id}:#{client().client_secret}")
+  # If we want to send client id and secret in 64 bit encoded in the header params
+  # def encoded_credentials, do: :base64.encode("#{client().client_id}:#{client().client_secret}")
 
   # Strategy Callbacks
 
