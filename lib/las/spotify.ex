@@ -22,8 +22,7 @@ defmodule Spotify do
   # you can pass options to the underlying http library via `opts` parameter
   def get_token!(params \\ [], headers \\ [], opts \\ []) do
     IO.puts("In spotify.ex get token")
-    #IO.inspect(Keyword.merge(params, grant_type: "authorization_code")); #, redirect_uri: client().redirect_uri, client_id: client().client_id, client_secret: client().client_secret))
-    OAuth2.Client.get_token!(client(), body(params), headers, opts)
+    OAuth2.Client.get_token!(client(), params, headers, opts)
   end
 
 # FROM THE API DOCS
@@ -46,17 +45,24 @@ defmodule Spotify do
 
   # I assume these parameters will get sent in as the request body parametesrs.
   # In this case,
-  def body(code) do
-    [
-      {:code, code},
-      {:grant_type, "authorization_code"},
-      {:redirect_uri, client().redirect_uri},
-      {:client_id, client().client_id},           # This can also get sent in as header params
-      {:client_secret, client().client_secret}    # This can also get sent in as header params
-    ]
-  end
+  # def body(code) do
+  #   [
+  #     {:code, code},
+  #     # {:grant_type, "authorization_code"},
+  #     # {:redirect_uri, client().redirect_uri},
+  #     # {:client_id, client().client_id},           # This can also get sent in as header params
+  #     # {:client_secret, client().client_secret}    # This can also get sent in as header params
+  #   ]
+  # end
 
-  # If we want to send client id and secret in 64 bit encoded in the header params
+  # def headerFormat do
+  #   [
+  #     {"Authorization", "Basic #{encoded_credentials()}"},
+  #     #{"Content-Type", "application/x-www-form-urlencoded"}
+  #   ]
+  # end
+  #
+  # # If we want to send client id and secret in 64 bit encoded in the header params
   # def encoded_credentials, do: :base64.encode("#{client().client_id}:#{client().client_secret}")
 
   # Strategy Callbacks
