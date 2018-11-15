@@ -29,6 +29,7 @@ config :oauth2, debug: true,
   serializers: %{
   "application/json" => Jason,
   "text/html" => Jason
+  "application/vnd.api+json" => Poison,
   }
 
 # Import environment specific config. This must remain at the bottom
