@@ -28,7 +28,7 @@ config :phoenix, :json_library, Jason
 config :oauth2, debug: true,
   serializers: %{
   "application/json" => Jason,
-  "text/html" => Jason
+  "text/html" => Jason,
   "application/vnd.api+json" => Poison,
   }
 
