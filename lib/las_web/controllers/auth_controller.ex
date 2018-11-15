@@ -29,14 +29,12 @@ defmodule LasWeb.AuthController do
   def callback(conn, %{"provider" => provider, "code" => code}) do
     # Exchange an auth code for an access token
     client = get_token!(provider, code)
-    IO.inspect(client)
 
     # Request the user's data with the access token
-    IO.puts("Requesting the user's data with the access token.")
-
+    # This means we can get back their data
     user = get_user!(provider, client)
-    IO.inspect(user)
     # TODO implement
+
     #User.insert_or_update(user)
 
     # Store the token in the "database"
@@ -71,9 +69,7 @@ defmodule LasWeb.AuthController do
   end
 
   defp get_user!("spotify", client) do
-    IO.puts("Got to get-user!")
     %{body: user} = OAuth2.Client.get!(client, "/v1/me")
-    IO.inspect(user)
     %{name: user["display_name"], spotify_url: user["external_urls"]["spotify"], token: client.token.access_token, followers: user["followers"]["total"]}
   end
 
