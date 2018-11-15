@@ -16,14 +16,43 @@ defmodule Spotify do
   end
 
   def authorize_url! do
-    OAuth2.Client.authorize_url!(client(), scope: "user-read-private")
+    OAuth2.Client.authorize_url!(client(), scope: "playlist-modify-public user-modify-playback-state user-read-recently-played")
   end
+
+  @url "https://accounts.spotify.com/api/token"
+
 
   # you can pass options to the underlying http library via `opts` parameter
   def get_token!(params \\ [], headers \\ [], opts \\ []) do
     IO.puts("In spotify.ex get token")
-    OAuth2.Client.get_token!(client(), params, headers, opts)
+    #a = HTTPoison.post(@url, idk(params), headerFormat())
+    #IO.inspect(a)
+    #OAuth2.Client.get_token!(client(), params, headers, opts)
+
+    # {:form, [{K, V}, ...]}
+    #
+    # body = {:form, [{code: params},
+    # {grant_type: "authorization_code"},
+    # {redirect_uri: client().redirect_uri}]}
+
+  #
+  # body = {:form, {[code: params],
+  # [grant_type: "authorization_code"],
+  # [redirect_uri: client().redirect_uri]}}
+
+    #req_body = URI.encode_query(post_body(params))
+
+    response = HTTPoison.post(
+      @url,
+      idk(params),
+      headerFormat()
+    )
+    IO.puts("GOT HERE _+_+_+_+_+_+_+_+_+_+_+_+_+_++_+_+_+_+__+_+_+_+_+_+_+_+")
+    IO.inspect(response)
+
   end
+
+
 
 # FROM THE API DOCS
 
@@ -45,25 +74,81 @@ defmodule Spotify do
 
   # I assume these parameters will get sent in as the request body parametesrs.
   # In this case,
+
+  def idk(params) do
+    "grant_type=authorization_code&code=#{params}&redirect_uri=#{client().redirect_uri}" #|> Poison.encode!
+
+  end
+
+  def post_body(params) do
+  %{
+    "code" => params,
+    "grant_type" => "authorization_code",
+    "redirect_uri" => client().redirect_uri,
+    # "client_id"=> client().client_id,
+    # "client_secret" => client().client_secret
+  } #|> URI.encode_query
+  end
+
+  def idk2(params) do
+    %{
+      grant_type: "authorization_code",
+      code: params,
+      redirect_uri: client().redirect_uri
+     } |> URI.encode_query # Poison.encode!()
+  end
+
+  #
   # def body(code) do
-  #   [
-  #     {:code, code},
-  #     # {:grant_type, "authorization_code"},
-  #     # {:redirect_uri, client().redirect_uri},
-  #     # {:client_id, client().client_id},           # This can also get sent in as header params
-  #     # {:client_secret, client().client_secret}    # This can also get sent in as header params
-  #   ]
+  #
+  #   body = Poison.encode!(%{
+  #
+  #     "param": [
+  #         %{
+  #           "code": code,
+  #           "grant_type": "authorization_code",
+  #           "redirect_uri": client().redirect_uri
+  #         }
+  #       ]
+  #     # params: {
+  #     #
+  #     # }
+  #     # "code": code,
+  #     # "grant_type": "authorization_code",
+  #     # "redirect_uri": client().redirect_uri
+  #   })
+  #   body
+  #
+  #   # [
+  #   #   {"code", code},
+  #   #   {"grant_type", "authorization_code"},
+  #   #   {"redirect_uri", client().redirect_uri},
+  #   #   # {:client_id, client().client_id},           # This can also get sent in as header params
+  #   #   # {:client_secret, client().client_secret}    # This can also get sent in as header params
+  #   # ]
   # end
 
-  # def headerFormat do
-  #   [
-  #     {"Authorization", "Basic #{encoded_credentials()}"},
-  #     #{"Content-Type", "application/x-www-form-urlencoded"}
-  #   ]
-  # end
+  def headerFormat do
+    [
+      {"Authorization", "Basic #{encoded_credentials()}"},
+      {"Content-Type", "application/x-www-form-urlencoded"}
+    ]
+  end
   #
-  # # If we want to send client id and secret in 64 bit encoded in the header params
-  # def encoded_credentials, do: :base64.encode("#{client().client_id}:#{client().client_secret}")
+  # def headerFormat1 do
+  #   %{
+  #     "Authorization"=> "Basic #{encoded_credentials()}",
+  #   "Content-Type"=> "application/x-www-form-urlencoded"
+  #   }
+
+    # }
+    #   {"Authorization", "Basic #{encoded_credentials()}"},
+    #   {"Content-Type", "application/x-www-form-urlencoded"}
+    # ]
+  # end
+
+  # If we want to send client id and secret in 64 bit encoded in the header params
+  def encoded_credentials, do: :base64.encode("#{client().client_id}:#{client().client_secret}")
 
   # Strategy Callbacks
 
@@ -75,6 +160,7 @@ defmodule Spotify do
     client
     |> put_param(:client_secret, client.client_secret)
     |> put_header("accept", "application/json")
+    #|> put_header("Authorization", "Basic #{encoded_credentials()}")
     |> OAuth2.Strategy.AuthCode.get_token(params, headers)
   end
 end

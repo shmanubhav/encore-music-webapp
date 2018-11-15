@@ -63,7 +63,7 @@ defmodule LasWeb.AuthController do
   end
 
   defp get_token!("spotify", code) do
-    Spotify.get_token!(code: code)
+    Spotify.get_token!(code)
   end
 
   defp get_token!(_, _) do
