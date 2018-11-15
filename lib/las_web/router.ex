@@ -22,6 +22,9 @@ defmodule LasWeb.Router do
 
     get "/", PageController, :index
     get "/login", PageController, :login
+    resources "/rooms", RoomController
+    resources "/users", UserController
+    resources "/songs", SongController
   end
 
   scope "/auth", LasWeb do
