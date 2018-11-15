@@ -27,8 +27,8 @@ config :phoenix, :json_library, Jason
 
 config :oauth2, debug: true,
   serializers: %{
-  "application/json" => Poison,
-  "text/html" => Poison
+  "application/json" => Jason,
+  "text/html" => Jason
   }
 
 # Import environment specific config. This must remain at the bottom

@@ -20,17 +20,9 @@ defmodule Spotify do
   end
 
   # you can pass options to the underlying http library via `opts` parameter
-  def get_token!(params) do # \\ [], headers \\ [], opts \\ []) do
+  def get_token!(params \\ [], headers \\ [], opts \\ []) do
     IO.puts("In spotify.ex get token")
-
-    response = HTTPoison.post(
-      client().token_url,
-      idk3(params),
-      headerFormat()
-    )
-    IO.puts("GOT HERE _+_+_+_+_+_+_+_+_+_+_+_+_+_++_+_+_+_+__+_+_+_+_+_+_+_+")
-    IO.inspect(response)
-
+    OAuth2.Client.get_token!(client(), params, headers, opts)
   end
 
 
@@ -49,39 +41,39 @@ defmodule Spotify do
 # Base 64 encoded string that contains the client ID and client secret key. The field must have the format: Authorization: Basic *<base64 encoded client_id:client_secret>*
 # *** An alternative way to send the client id and secret is as request parameters (client_id and client_secret) in the POST body, instead of sending them base64-encoded in the header.
 
-  def idk(params) do
-    "grant_type=authorization_code&code=#{params}&redirect_uri=#{client().redirect_uri}" #|> Poison.encode!
-  end
+  # def idk(params) do
+  #   "grant_type=authorization_code&code=#{params}&redirect_uri=#{client().redirect_uri}" #|> Poison.encode!
+  # end
+  #
+  # def post_body(params) do
+  # %{
+  #   "code" => params,
+  #   "grant_type" => "authorization_code",
+  #   "redirect_uri" => client().redirect_uri,
+  #   # "client_id"=> client().client_id,
+  #   # "client_secret" => client().client_secret
+  # } #|> URI.encode_query
+  # end
 
-  def post_body(params) do
-  %{
-    "code" => params,
-    "grant_type" => "authorization_code",
-    "redirect_uri" => client().redirect_uri,
-    # "client_id"=> client().client_id,
-    # "client_secret" => client().client_secret
-  } #|> URI.encode_query
-  end
-
-  def idk3(params) do
-    body =
-     %{
-       grant_type: "authorization_code",
-       code: params,
-       redirect_uri: client().redirect_uri,
-       client_id: client().client_id,
-       client_secret: client().client_secret
-     } |> URI.encode_query
-     body
-  end
-
-  def idk2(params) do
-    %{
-      grant_type: "authorization_code",
-      code: params,
-      redirect_uri: client().redirect_uri
-     } |> URI.encode_query # Poison.encode!()
-  end
+  # def idk3(params) do
+  #   body =
+  #    %{
+  #      grant_type: "authorization_code",
+  #      code: params,
+  #      redirect_uri: client().redirect_uri,
+  #      client_id: client().client_id,
+  #      client_secret: client().client_secret
+  #    } |> URI.encode_query
+  #    body
+  # end
+  #
+  # def idk2(params) do
+  #   %{
+  #     grant_type: "authorization_code",
+  #     code: params,
+  #     redirect_uri: client().redirect_uri
+  #    } |> URI.encode_query # Poison.encode!()
+  # end
 
   #
   # def body(code) do
@@ -113,12 +105,12 @@ defmodule Spotify do
   #   # ]
   # end
 
-  def headerFormat do
-    [
-    #  {"Authorization", "Basic #{encoded_credentials()}"},
-      {"Content-Type", "application/x-www-form-urlencoded"}
-    ]
-  end
+  # def headerFormat do
+  #   [
+  #   #  {"Authorization", "Basic #{encoded_credentials()}"},
+  #     {"Content-Type", "application/x-www-form-urlencoded"}
+  #   ]
+  # end
   #
   # def headerFormat1 do
   #   %{
@@ -132,11 +124,11 @@ defmodule Spotify do
     # ]
   # end
 
-  # If we want to send client id and secret in 64 bit encoded in the header params
-  def encoded_credentials do
-    Base.encode64("#{client().client_id}:#{client().client_secret}")
-  end
-    #base64.encode("#{client().client_id}:#{client().client_secret}")
+  # # If we want to send client id and secret in 64 bit encoded in the header params
+  # def encoded_credentials do
+  #   Base.encode64("#{client().client_id}:#{client().client_secret}")
+  # end
+  #   #base64.encode("#{client().client_id}:#{client().client_secret}")
 
   # Strategy Callbacks
 
