@@ -4,7 +4,6 @@ defmodule Spotify do
   # Public API
 
   def client do
-    IO.puts("Got to spotify ex client public API")
     OAuth2.Client.new([
       strategy: __MODULE__,
       client_id: System.get_env("SPOTIFY_CLIENT_ID"),
@@ -12,12 +11,13 @@ defmodule Spotify do
       redirect_uri: "http://localhost:4000/auth/spotify/callback/",
       site: "https://api.spotify.com",
       authorize_url: "https://accounts.spotify.com/authorize",
-      token_url: "https://spotify.com/login/oauth/access_token"
+      token_url: "https://accounts.spotify.com/api/token"
     ])
   end
 
+  # TODO: Define what scopes we want. 
   def authorize_url! do
-    OAuth2.Client.authorize_url!(client(), scope: "user-read-private")
+    OAuth2.Client.authorize_url!(client(), scope: "playlist-modify-public user-modify-playback-state user-read-recently-played")
   end
 
   # you can pass options to the underlying http library via `opts` parameter

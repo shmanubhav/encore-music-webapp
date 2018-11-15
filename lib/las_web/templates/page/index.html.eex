@@ -1,16 +1,22 @@
 <div class="container">
-   <div id="login">
-     <h1>Authorization Workflow</h1>
-     <a class="btn btn-primary btn-lg" href="<%= Routes.auth_path(@conn, :index, "spotify") %>">
-       <i class="fa fa-google"></i>
-       Sign in with Spotify
-     </a>
+  <div id="login">
+    <h1>CROWD DJ APP</h1>
+    <%= if @current_user do %>
+    <p class="my-3">
+      <h1>Welcome User: <%= @current_user.name %> </h1>
+      <div>THIS IS SIMPLY FOR DEBUGGIND PURPOSES</div>
+      <div>Followers: <%= @current_user.followers %> </div>
+      <div>Open Spotify: <%= @current_user.spotify_url %> </div>
+      <div>Access Token: <%= @current_user.token %></div>
 
-   </div>
-   <div id="loggedin">
-     <div id="user-profile">
-     </div>
-     <div id="oauth">
-     </div>
-   </div>
- </div>
+      <%= link("Logout", to: Routes.auth_path(@conn, :delete),
+            method: :delete) %>
+    </p>
+    <% else %>
+    <a class="btn btn-primary btn-lg" href="<%= Routes.auth_path(@conn, :index, "spotify") %>">
+      <i class="fa fa-google"></i>
+      Sign in with Spotify
+    </a>
+    <% end %>
+  </div>
+</div>

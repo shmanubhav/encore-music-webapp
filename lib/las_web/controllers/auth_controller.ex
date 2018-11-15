@@ -9,6 +9,7 @@ defmodule LasWeb.AuthController do
   based on the chosen strategy.
   """
   def index(conn, %{"provider" => provider}) do
+    IO.puts(provider)
     redirect conn, external: authorize_url!(provider)
   end
 
@@ -30,9 +31,11 @@ defmodule LasWeb.AuthController do
     client = get_token!(provider, code)
 
     # Request the user's data with the access token
+    # This means we can get back their data
     user = get_user!(provider, client)
+    # TODO implement
 
-    User.insert_or_update(user)
+    #User.insert_or_update(user)
 
     # Store the token in the "database"
 
@@ -66,8 +69,8 @@ defmodule LasWeb.AuthController do
   end
 
   defp get_user!("spotify", client) do
-    %{body: user} = OAuth2.Client.get!(client, "/user")
-    %{name: user["name"], avatar: user["avatar_url"], token: client.token.access_token}
+    %{body: user} = OAuth2.Client.get!(client, "/v1/me")
+    %{name: user["display_name"], spotify_url: user["external_urls"]["spotify"], token: client.token.access_token, followers: user["followers"]["total"]}
   end
 
 end
