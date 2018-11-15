@@ -27,7 +27,7 @@ defmodule LasWeb.Router do
     resources "/songs", SongController
   end
 
-  scope "/auth", OAuth2Example do
+  scope "/auth", LasWeb do
     pipe_through :browser
 
     get "/:provider", AuthController, :index

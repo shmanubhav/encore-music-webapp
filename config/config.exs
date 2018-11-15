@@ -25,7 +25,12 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :oauth2, debug: true
+config :oauth2, debug: true,
+  serializers: %{
+  "application/json" => Jason,
+  "text/html" => Jason,
+  "application/vnd.api+json" => Poison,
+  }
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

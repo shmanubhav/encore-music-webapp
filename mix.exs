@@ -39,6 +39,7 @@ defmodule Las.MixProject do
       {:ecto, "~> 3.0-rc", override: true},
       {:ecto_sql, "~> 3.0-rc", override: true},
       {:httpoison, "~> 1.4"},
+      {:poison, "~> 3.1"},
       {:postgrex, ">= 0.0.0-rc"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2-rc", only: :dev},
