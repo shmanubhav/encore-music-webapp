@@ -19,5 +19,6 @@ defmodule Las.Users.User do
     user
     |> cast(attrs, [:email, :first_name, :last_name, :password_hash, :admin])
     |> validate_required([:email, :first_name, :last_name, :password_hash, :admin])
+    |> unique_constraint(:email)
   end
 end
