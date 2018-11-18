@@ -6,7 +6,7 @@ defmodule LasWeb.SessionController do
 
   def create(conn, %{"email" => email, "password" => password}) do
 
-    user = Las.Users.get_user_by_email(email)
+    user = Las.Users.get_user_and_auth(email, password)
     if user do
       conn
       |> put_session(:user_id, user.id)
