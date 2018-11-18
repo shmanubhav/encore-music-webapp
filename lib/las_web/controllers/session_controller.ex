@@ -1,6 +1,3 @@
-# Used for Reference: Nat Tuck's lecture Notes
-# http://www.ccs.neu.edu/home/ntuck/courses/2018/09/cs4550/notes/11-add-users/notes.html
-
 defmodule LasWeb.SessionController do
   use LasWeb, :controller
 
