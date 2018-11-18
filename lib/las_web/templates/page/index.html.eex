@@ -22,7 +22,6 @@
       <% end %>
     <% else %>
       <nav class="navbar navbar-expand-sm navbar-light bg-white">
-
         <h4 class ="navbar-brand">Welcome!<h4>
         <h4 class ="navbar-brand">Login to Crowd DJ App:</h4>
         <div class="col-8">
