@@ -24,8 +24,11 @@ defmodule LasWeb.UserController do
     with {:ok, %User{} = user} <- Users.create_user(user_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.user_path(conn, :show, user))
-      |> render("show.json", user: user)
+      |> put_session(:user_id, user.id)
+      |> put_session(:current_login_user, user)
+      |> put_flash(:info, "Welcome #{user.first_name}")
+      |> redirect(to: Routes.page_path(conn, :index))
+
     end
 
     # case Users.create_user(user_params) do

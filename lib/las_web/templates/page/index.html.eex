@@ -34,8 +34,7 @@
       </nav>
       <br>
       <div class="col-8">
-      <h4>Don't have an account yet? Register:</h4>
-      <br>
+      <h4>Don't have an account yet?</h4>
       <p><%= link "Register", to: Routes.user_path(@conn, :new) %></p>
     </div>
     <% end %>

@@ -1,31 +1,45 @@
 <%= form_for @changeset, @action, fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+  <div class="row">
+    <div class="col-8">
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p>Oops, something went wrong! Please check the errors below.</p>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= label f, :email %>
+        <%= text_input f, :email, class: "form-control" %>
+        <%= error_tag f, :email %>
+      </div>
+
+      <div class="form-group">
+        <%= label f, :first_name %>
+        <%= text_input f, :first_name, class: "form-control" %>
+        <%= error_tag f, :first_name %>
+      </div>
+
+      <div class="form-group">
+        <%= label f, :last_name %>
+        <%= text_input f, :last_name, class: "form-control" %>
+        <%= error_tag f, :last_name %>
+      </div>
+
+      <div class="form-group">
+        <%= label f, :password_hash %>
+        <%= password_input f, :password_hash, class: "form-control" %>
+        <%= error_tag f, :password_hash %>
+      </div>
+
+      <div class="form-group">
+        <%= label f, :admin %>
+        <%= checkbox f, :admin, class: "form-control" %>
+        <%= error_tag f, :admin %>
+      </div>
+
+      <div>
+        <%= submit "Save", class: "btn btn-primary" %>
+      </div>
     </div>
-  <% end %>
-
-  <%= label f, :email %>
-  <%= text_input f, :email %>
-  <%= error_tag f, :email %>
-
-  <%= label f, :first_name %>
-  <%= text_input f, :first_name %>
-  <%= error_tag f, :first_name %>
-
-  <%= label f, :last_name %>
-  <%= text_input f, :last_name %>
-  <%= error_tag f, :last_name %>
-
-  <%= label f, :password_hash %>
-  <%= text_input f, :password_hash %>
-  <%= error_tag f, :password_hash %>
-
-  <%= label f, :admin %>
-  <%= checkbox f, :admin %>
-  <%= error_tag f, :admin %>
-
-  <div>
-    <%= submit "Save" %>
   </div>
 <% end %>
