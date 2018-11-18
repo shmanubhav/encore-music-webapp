@@ -11,7 +11,7 @@ defmodule LasWeb.Router do
     plug :put_secure_browser_headers
     plug :assign_current_user
     plug :assign_current_login_user
-
+    plug LasWeb.Plugs.FetchSession
   end
 
   pipeline :api do
