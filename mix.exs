@@ -47,6 +47,8 @@ defmodule Las.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:oauth2, "~> 0.9"},
+      {:comeonin, "~> 4.1"},
+      {:argon2_elixir, "~> 1.3"},
     ]
   end
 
