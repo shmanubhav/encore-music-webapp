@@ -27,8 +27,8 @@
         <div class="col-8">
         <%= form_for @conn, Routes.session_path(@conn, :create),
         [class: "form-inline"], fn f -> %>
-        <%= text_input f, :email, class: "form-control" %>
-        <%= password_input f, :password, class: "form-control" %>
+        <%= text_input f, :email, class: "form-control", placeholder: "email" %>
+        <%= password_input f, :password, class: "form-control", placeholder: "password" %>
         <%= submit "Login", class: "btn btn-secondary" %>
       </div>
       </nav>

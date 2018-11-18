@@ -15,10 +15,7 @@ defmodule LasWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    IO.puts("GOT TO CREATE USER")
-    IO.inspect(user_params)
-
-    pwhash = Argon2.hash_pwd_salt(Map.get(user_params, "password_hash"))
+    pwhash = Argon2.hash_pwd_salt(Map.get(user_params, "password"))
     user_params = Map.put(user_params, "password_hash", pwhash)
 
     with {:ok, %User{} = user} <- Users.create_user(user_params) do
@@ -28,6 +25,10 @@ defmodule LasWeb.UserController do
       |> put_session(:current_login_user, user)
       |> put_flash(:info, "Welcome #{user.first_name}")
       |> redirect(to: Routes.page_path(conn, :index))
+
+    else
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new.html", changeset: changeset)
 
     end
 
