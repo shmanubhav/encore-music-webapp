@@ -15,9 +15,6 @@ defmodule LasWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    IO.puts("GOT TO CREATE USER")
-    IO.inspect(user_params)
-
     pwhash = Argon2.hash_pwd_salt(Map.get(user_params, "password"))
     user_params = Map.put(user_params, "password_hash", pwhash)
 
