@@ -1,22 +1,45 @@
 <div class="container">
   <div id="login">
+    <%= if @current_login_user do %>
     <h1>CROWD DJ APP</h1>
-    <%= if @current_user do %>
-    <p class="my-3">
-      <h1>Welcome User: <%= @current_user.name %> </h1>
-      <div>THIS IS SIMPLY FOR DEBUGGIND PURPOSES</div>
-      <div>Followers: <%= @current_user.followers %> </div>
-      <div>Open Spotify: <%= @current_user.spotify_url %> </div>
-      <div>Access Token: <%= @current_user.token %></div>
-
-      <%= link("Logout", to: Routes.auth_path(@conn, :delete),
-            method: :delete) %>
-    </p>
+      <%= if @current_user do %>
+        <p class="my-3">
+          <h1>Welcome User: <%= @current_user.name %> </h1>
+          <div>THIS IS SIMPLY FOR DEBUGGIND PURPOSES</div>
+          <div>Followers: <%= @current_user.followers %> </div>
+          <div>Open Spotify: <%= @current_user.spotify_url %> </div>
+          <div>Access Token: <%= @current_user.token %></div>
+        </p>
+        <%= link("Logout", to: Routes.auth_path(@conn, :delete),
+        method: :delete) %>
+      <% else %>
+          <a class="btn btn-primary btn-lg" href="<%= Routes.auth_path(@conn, :index, "spotify") %>">
+            <i class="fa fa-google"></i>
+            Sign in with Spotify
+          </a>
+          <%= link("Logout", to: Routes.auth_path(@conn, :delete),
+          method: :delete) %>
+      <% end %>
     <% else %>
-    <a class="btn btn-primary btn-lg" href="<%= Routes.auth_path(@conn, :index, "spotify") %>">
-      <i class="fa fa-google"></i>
-      Sign in with Spotify
-    </a>
+      <nav class="navbar navbar-expand-sm navbar-light bg-white">
+
+        <h4 class ="navbar-brand">Welcome!<h4>
+        <h4 class ="navbar-brand">Login to Crowd DJ App:</h4>
+        <div class="col-8">
+        <%= form_for @conn, Routes.session_path(@conn, :create),
+        [class: "form-inline"], fn f -> %>
+        <%= text_input f, :email, class: "form-control" %>
+        <%= password_input f, :password, class: "form-control" %>
+        <%= submit "Login", class: "btn btn-secondary" %>
+      </div>
+      </nav>
+      <br>
+      <div class="col-8">
+      <h4>Don't have an account yet? Register:</h4>
+      <br>
+      <p><%= link "Register", to: Routes.user_path(@conn, :new) %></p>
+    </div>
+    <% end %>
     <% end %>
   </div>
 </div>

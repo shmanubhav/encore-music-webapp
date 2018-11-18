@@ -9,7 +9,6 @@ defmodule LasWeb.AuthController do
   based on the chosen strategy.
   """
   def index(conn, %{"provider" => provider}) do
-    IO.puts(provider)
     redirect conn, external: authorize_url!(provider)
   end
 
@@ -17,6 +16,7 @@ defmodule LasWeb.AuthController do
     conn
     |> put_flash(:info, "You have been logged out!")
     |> configure_session(drop: true)
+    |> delete_session(:assign_current_login_user)
     |> redirect(to: "/")
   end
 
