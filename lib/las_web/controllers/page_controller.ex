@@ -9,8 +9,17 @@ defmodule LasWeb.PageController do
 
   def join(conn, %{"join" => %{"party_name" => party_name, "party_code" => party_code}}) do
 
+    # check that the fields are filled out.
+    if party_name == "" or party_code == "" do
+      conn
+      |> put_flash(:error, "Please Enter a Party Room and Code")
+      |> redirect(to: "/")
+    end
+
+    # Validate that the code is correct.
     room = Rooms.validate_code(party_name, party_code)
-    # Add the user to the room's list of validated users.
+
+    # TODO Add the user to the room's list of validated users.
 
     if room do
       conn

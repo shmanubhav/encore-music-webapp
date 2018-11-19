@@ -25,7 +25,9 @@ defmodule LasWeb.GamesChannel do
   defp authorized?(payload) do
     user_id = Map.get(payload, "user")
     if user_id do
-      # TODO make DB call to check that they are authenticated
+      # TODO make DB call to check that they are authenticated - that the join table
+      # between users and rooms contains this user
+
       true
     else
       false
