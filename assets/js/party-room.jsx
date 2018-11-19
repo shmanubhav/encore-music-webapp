@@ -34,14 +34,10 @@ class Party extends React.Component {
     window.onSpotifyWebPlaybackSDKReady = () => {
       // You can now initialize Spotify.Player and use the SDK
       console.log("here2");
-      const token = 'BQA_lIaPwegtIDcNYLN8ySWnsj8V45bT73442yJve6pgBlVZnpRNDvmikz8JOYkOX7CsCw2z_dnYoOeiA-t9kWHI4-6Gr0a7PYPC578lwVBp1-XeAlTCdLowOasI899zdABmeaPNzpzh5sUDxf8t9yrj1CsDzw'
-      //      window.token;
+      const token = window.token;
       const player = new Spotify.Player({
         name: 'LAS Spotify Player',
-        getOAuthToken: cb => {
-          // callback to get new access token here
-          cb(token);
-        }
+        getOAuthToken: cb => { cb(token); }
       });
 
       // Error handling
@@ -97,7 +93,7 @@ class Party extends React.Component {
       return (
         <div>
           <p>
-            YOU ARE NOT AUTHORIZED TO JOIN THIS PARTY {this.state.authorize}
+            YOU ARE NOT AUTHORIZED TO JOIN THIS PARTY
           </p>
         </div>
       )
