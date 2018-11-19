@@ -12,7 +12,7 @@ function start() {
   let root = document.getElementById('root');
   if (root) {
     socket.connect();
-    let channel = socket.channel("Welcome! Party Room:" + window.gameName, {});
+    let channel = socket.channel("Welcome! Party Room:" + window.gameName, {token: true});
     game_init(root, channel);
   }
 }

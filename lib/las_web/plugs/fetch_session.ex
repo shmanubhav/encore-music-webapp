@@ -3,7 +3,7 @@ defmodule LasWeb.Plugs.FetchSession do
    def init(args), do: args
 
    def call(conn, _opts) do
-     if user = get_session(conn, :user) do
+     if user = get_session(conn, :current_login_user) do
        token = Phoenix.Token.sign(conn, "user socket", user)
        assign(conn, :user_token, token)
      else

@@ -3,7 +3,7 @@ defmodule LasWeb.UserSocket do
 
   ## Channels
   # channel "room:*", LasWeb.RoomChannel
-  channel "rooms:*", LasWeb.GamesChannel
+  channel "Welcome! Party Room:*", LasWeb.GamesChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
@@ -17,8 +17,6 @@ defmodule LasWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(%{"token" => token}, socket, _connect_info) do
-    IO.inspect("In user socket")
-    IO.inspect(token)
   case Phoenix.Token.verify(socket, "user socket", token, max_age: 1209600) do
     {:ok, user} ->
       {:ok, assign(socket, :user, user)}
