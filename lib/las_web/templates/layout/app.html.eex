@@ -9,6 +9,7 @@
       <script>
         window.userToken = "<%= @user_token %>";
       </script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
   </head>
   <body>
     <header>

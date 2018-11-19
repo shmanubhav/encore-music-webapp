@@ -17,7 +17,7 @@ defmodule Spotify do
 
   # TODO: Define what scopes we want. 
   def authorize_url! do
-    OAuth2.Client.authorize_url!(client(), scope: "playlist-modify-public user-modify-playback-state user-read-recently-played")
+    OAuth2.Client.authorize_url!(client(), scope: "playlist-modify-public user-modify-playback-state user-read-recently-played streaming user-read-birthdate user-read-email user-read-private")
   end
 
   # you can pass options to the underlying http library via `opts` parameter
