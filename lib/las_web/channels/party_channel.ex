@@ -5,9 +5,6 @@ defmodule LasWeb.GamesChannel do
   alias Room.GameServer
 
   def join("Welcome! Party Room:" <> game, payload, socket) do
-    IO.inspect("G__________________")
-    IO.inspect(payload)
-    IO.inspect(game)
     if authorized?(payload) do
       socket = assign(socket, :game, game)
       #view = GameServer.view(game, socket.assigns[:user])
@@ -17,25 +14,7 @@ defmodule LasWeb.GamesChannel do
       end
     end
 
-  def handle_in("guess", _payload, socket) do
-    view = GameServer.guess(socket.assigns[:game], socket.assigns[:user])
-    broadcast! socket, "cardGuessed", %{view: view}
-    {:reply, {:ok, %{ "game" => view}}, socket}
-  end
-
-  def handle_in("clickCard", %{"card1" => c1}, socket) do
-    IO.puts("We clicked a card")
-    view = GameServer.clickCard(socket.assigns[:game], socket.assigns[:user], c1)
-    broadcast! socket, "clickCard", %{view: view}
-    {:reply, {:ok, %{ "game" => view}}, socket}
-  end
-
-  def handle_in("restart", payload, socket) do
-    IO.puts("User decided to restart the game")
-    # gg = Game.new()
-    view = GameServer.resetGame(socket.assigns[:game], socket.assigns[:user])
-    {:reply, {:ok, %{"game" => view}}, socket}
-  end
+    # Add other actions here
 
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (games:lobby).
@@ -44,9 +23,9 @@ defmodule LasWeb.GamesChannel do
     {:noreply, socket}
   end
 
-  # Add authorization logic here as required.
+  # TODO Add authorization logic here as required.
   defp authorized?(%{"token" => token}) do
-    IO.inspect(token)
+    # IO.inspect(token)
       token
     end
 end
