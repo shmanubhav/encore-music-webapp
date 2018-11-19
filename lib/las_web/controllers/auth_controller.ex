@@ -49,7 +49,8 @@ defmodule LasWeb.AuthController do
     conn
     |> put_session(:current_user, user)
     |> put_session(:access_token, client.token.access_token)
-    |> redirect(to: "/")
+    # TODO: Possibly fix this
+    |> redirect(to: "/explore")
   end
 
   defp authorize_url!("spotify") do

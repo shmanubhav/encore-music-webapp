@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container login">
   <div id="login">
     <%= if @current_login_user do %>
     <h1>CROWD DJ APP</h1>
@@ -31,21 +31,25 @@
           method: :delete) %>
       <% end %>
     <% else %>
-      <nav class="navbar navbar-expand-sm navbar-light bg-white">
-        <h4 class ="navbar-brand">Welcome!<h4>
-        <h4 class ="navbar-brand">Login to Crowd DJ App:</h4>
-        <div class="col-8">
-        <%= form_for @conn, Routes.session_path(@conn, :create),
-        [class: "form-inline"], fn f -> %>
-        <%= text_input f, :email, class: "form-control", placeholder: "email" %>
-        <%= password_input f, :password, class: "form-control", placeholder: "password" %>
-        <%= submit "Login", class: "btn btn-secondary" %>
+    <div class="row">
+      <div class="col"><h1 class="title">Crowd DJ</h1></div>
+    </div>
+      <div class="row">
+        <div class="col-3"></div>
+          <div class="col-6">
+            <%= form_for @conn, Routes.session_path(@conn, :create),
+            [class: "form"], fn f -> %>
+            <%= text_input f, :email, class: "form-control", placeholder: "email" %>
+            <%= password_input f, :password, class: "form-control", placeholder: "password" %>
+            <%= submit "Login", class: "btn btn-info float-right" %>
+        </div>
+       <div class="col-3"></div>
       </div>
-      </nav>
-      <br>
+
       <div class="col-8">
-      <h4>Don't have an account yet?</h4>
-      <p><%= link "Register", to: Routes.user_path(@conn, :new) %></p>
+      <p class="float-right">Don't have an account yet?
+        <%= link "Register", to: Routes.user_path(@conn, :new), class: "float-center" %>
+      </p>
     </div>
     <% end %>
     <% end %>

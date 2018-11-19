@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Crowd DJ App · Phoenix Framework</title>
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
       <script>
         window.userToken = "<%= @user_token %>";
@@ -12,19 +13,22 @@
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
   </head>
   <body>
-    <header>
-    </header>
-
-    <div class="row">
-      <div class="col-12">
-        <%= if get_flash(@conn, :info) do %>
-          <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-        <% end %>
-        <%= if get_flash(@conn, :error) do %>
-          <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-        <% end %>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="col-8"></div>
+        <div class="col-4">
+          <a class="navbar-brand" href="/users/<%=@current_login_user.id%>">Your Profile</a> |
+        </div>
+      </nav>
+      <div class="row">
+        <div class="col-12">
+          <%= if get_flash(@conn, :info) do %>
+            <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+          <% end %>
+          <%= if get_flash(@conn, :error) do %>
+            <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+          <% end %>
+        </div>
       </div>
-    </div>
       <%= render @view_module, @view_template, assigns %>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>

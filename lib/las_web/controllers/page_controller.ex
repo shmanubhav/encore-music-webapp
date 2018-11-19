@@ -4,7 +4,17 @@ defmodule LasWeb.PageController do
   alias Las.Rooms
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    user = get_session(conn, :current_user)
+    if user do
+      conn
+      |> redirect(to: "/explore")
+    else
+      render(conn, "index.html")
+    end
+  end
+
+  def explore(conn, _params) do
+    render(conn, "explore.html")
   end
 
   def join(conn, %{"join" => %{"party_name" => party_name, "party_code" => party_code}}) do

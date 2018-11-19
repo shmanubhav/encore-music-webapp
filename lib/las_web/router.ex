@@ -30,6 +30,7 @@ defmodule LasWeb.Router do
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
     post "/join", PageController, :join
     get "/party/:party", PageController, :party
+    get "/explore", PageController, :explore
 
   end
 
