@@ -1,5 +1,5 @@
 # This will be the room server.
-# References Nat Tuck's lecture Notes
+# Used Nat Tuck's lecture notes for reference
 # http://www.ccs.neu.edu/home/ntuck/courses/2018/09/cs4550/notes/09-two-players/notes.html
 
 defmodule Las.RoomServer do
@@ -15,6 +15,5 @@ defmodule Las.RoomServer do
   def init(args) do
     {:ok, args}
   end
-
 
 end

@@ -2,7 +2,6 @@ defmodule Las.Rooms.Room do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "rooms" do
     field :code, :integer
     field :name, :string
