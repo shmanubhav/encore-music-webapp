@@ -4,11 +4,21 @@
     <h1>CROWD DJ APP</h1>
       <%= if @current_user do %>
         <p class="my-3">
-          <h1>Welcome User: <%= @current_user.name %> </h1>
-          <div>THIS IS SIMPLY FOR DEBUGGIND PURPOSES</div>
+          <h1>Welcome User: <%= @current_login_user.first_name %> </h1>
+          <div>Spotify Name: <%= @current_user.name %>
           <div>Followers: <%= @current_user.followers %> </div>
-          <div>Open Spotify: <%= @current_user.spotify_url %> </div>
-          <div>Access Token: <%= @current_user.token %></div>
+          <div>Spotify Link: <%= @current_user.spotify_url %> </div>
+
+        <br><br>
+        <div>
+          <h1 id="join-party-page">Join a Party!</h1>
+          <%= form_for @conn, "/join", [as: :join], fn f -> %>
+            <p>Party Name: <%= text_input f, :party_name %></p>
+            <p>Party Code: <%= text_input f, :party_code %></p>
+            <p><%= submit "Join Party" %>
+            </div>
+          <% end %>
+
         </p>
         <%= link("Logout", to: Routes.auth_path(@conn, :delete),
         method: :delete) %>

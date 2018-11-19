@@ -16,6 +16,7 @@ defmodule Las.Rooms.Room do
   def changeset(room, attrs) do
     room
     |> cast(attrs, [:name, :code])
+    |> unique_constraint(:name)
     |> validate_required([:name, :code])
   end
 end

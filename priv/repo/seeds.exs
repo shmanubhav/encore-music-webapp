@@ -12,8 +12,11 @@
 
 alias Las.Repo
 alias Las.Users.User
+alias Las.Rooms.Room
 
 pwhash = Argon2.hash_pwd_salt("pass1")
 
 Repo.insert!(%User{email: "lindsay@example.com", admin: true, password_hash: pwhash, first_name: "Lindsay", last_name: "Hauz"})
 Repo.insert!(%User{email: "lindsay1@example.com", admin: true, password_hash: pwhash, first_name: "Lindsay", last_name: "Hauz"})
+
+Repo.insert!(%Room{name: "lindsay", code: 123})

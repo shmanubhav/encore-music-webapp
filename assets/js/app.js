@@ -12,16 +12,16 @@ import "phoenix_html"
 import jQuery from 'jquery';
 window.jQuery = window.$ = jQuery;
 import "bootstrap";
+import socket from "./socket";
+import game_init from "./party-room.jsx";
 
-// Import local files
-//
-// Local files can be imported directly using relative paths, for example:
-// import socket from "./socket"
-/**
- * This is an example of a basic node.js script that performs
- * the Authorization Code oAuth2 flow to authenticate against
- * the Spotify Accounts.
- *
- * For more information, read
- * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
- */
+function start() {
+  let root = document.getElementById('root');
+  if (root) {
+    socket.connect();
+    let channel = socket.channel("Welcome! Party Room:" + window.gameName, {});
+    game_init(root, channel);
+  }
+}
+
+$(start);

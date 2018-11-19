@@ -27,6 +27,9 @@ defmodule LasWeb.Router do
     resources "/users", UserController
     resources "/songs", SongController
     resources "/sessions", SessionController, only: [:create, :delete], singleton: true
+    post "/join", PageController, :join
+    get "/party/:party", PageController, :party
+
   end
 
   scope "/auth", LasWeb do

@@ -9,5 +9,7 @@ defmodule Las.Repo.Migrations.CreateRooms do
       timestamps()
     end
 
+    create index(:rooms, [:name], unique: true)
+
   end
 end
