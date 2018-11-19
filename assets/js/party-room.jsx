@@ -21,4 +21,5 @@ class Party extends React.Component {
           Party Room.
         </h3>
       </div>
-}
+    )};
+  }
