@@ -14,10 +14,15 @@
   </head>
   <body>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="col-8"></div>
-        <div class="col-4">
-          <a class="navbar-brand" href="/users/<%=@current_login_user.id%>">Your Profile</a> |
-        </div>
+        <%= if @current_login_user do %>
+          <div class="col-4">
+            <a class="navbar-brand" href="/users/<%=@current_login_user.id%>">Your Profile</a> |
+          </div>
+          <div class="col-4">
+            <%= link("Logout", to: Routes.auth_path(@conn, :delete),
+            method: :delete) %>
+          </div>
+        <% end %>
       </nav>
       <div class="row">
         <div class="col-12">
