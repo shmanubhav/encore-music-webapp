@@ -10,6 +10,8 @@ defmodule LasWeb.PageController do
   def join(conn, %{"join" => %{"party_name" => party_name, "party_code" => party_code}}) do
 
     room = Rooms.validate_code(party_name, party_code)
+    # Add the user to the room's list of validated users.
+
     if room do
       conn
       |> put_session(:party_name, party_name)
@@ -24,7 +26,7 @@ defmodule LasWeb.PageController do
   def party(conn, %{"party" => party_name}) do
     user = get_session(conn, :current_login_user)
     spotify_user = get_session(conn, :current_user)
-    
+
     if user do
       render conn, "party_room.html", party_name: party_name , user: user, spotify_user: spotify_user
     else

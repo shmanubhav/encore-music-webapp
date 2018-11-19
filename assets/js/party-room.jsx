@@ -12,42 +12,57 @@ class Party extends React.Component {
     super(props);
     this.channel = props.channel;
     this.state = {
+      authorized: false,
+      users: [],
+      song_queue: [],
+      currently_playing: []
     }
 
     this.channel.join()
-      .receive("ok", console.log("succesfully joined"))
-      .receive("error", resp => { console.log("Unable to join", resp)});
+      .receive("ok", this.gotView.bind(this))
+      .receive("error", resp => { console.log("Unable to join", resp) });
   }
+
+  gotView(view) {
+    console.log(view)
+    this.setState(view.view);
+    console.log(view)
+  }
+
   render() {
     console.log("here1");
     window.onSpotifyWebPlaybackSDKReady = () => {
       // You can now initialize Spotify.Player and use the SDK
       console.log("here2");
-      const token = window.token;
+      const token = 'BQA_lIaPwegtIDcNYLN8ySWnsj8V45bT73442yJve6pgBlVZnpRNDvmikz8JOYkOX7CsCw2z_dnYoOeiA-t9kWHI4-6Gr0a7PYPC578lwVBp1-XeAlTCdLowOasI899zdABmeaPNzpzh5sUDxf8t9yrj1CsDzw'
+      //      window.token;
       const player = new Spotify.Player({
         name: 'LAS Spotify Player',
-        getOAuthToken: cb => { cb(token); }
+        getOAuthToken: cb => {
+          // callback to get new access token here
+          cb(token);
+        }
       });
-    
+
       // Error handling
       player.addListener('initialization_error', ({ message }) => { console.error(message); });
       player.addListener('authentication_error', ({ message }) => { console.error(message); });
       player.addListener('account_error', ({ message }) => { console.error(message); });
       player.addListener('playback_error', ({ message }) => { console.error(message); });
-    
+
       // Playback status updates
       player.addListener('player_state_changed', state => { console.log(state); });
-    
+
       // Ready
       player.addListener('ready', ({ device_id }) => {
         console.log('Ready with Device ID', device_id);
       });
-    
+
       // Not Ready
       player.addListener('not_ready', ({ device_id }) => {
         console.log('Device ID has gone offline', device_id);
       });
-    
+
       // Connect to the player!
       player.connect();
       // var player = new Spotify.Player({
@@ -67,11 +82,25 @@ class Party extends React.Component {
       //   }
       // });
     };
-    return (
-      <div>
-        <p>
-          User Entered the Party Room!!!
+
+    if (this.state.authorized) {
+      return (
+        <div>
+          <p>
+            User Entered the Party Room!!!
         </p>
-      </div>
-    )};
+        </div>
+      )
+    }
+    else {
+      alert(this.state.authorized)
+      return (
+        <div>
+          <p>
+            YOU ARE NOT AUTHORIZED TO JOIN THIS PARTY {this.state.authorize}
+          </p>
+        </div>
+      )
+    };
   }
+}

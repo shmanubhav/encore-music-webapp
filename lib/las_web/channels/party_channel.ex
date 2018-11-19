@@ -2,13 +2,11 @@
 defmodule LasWeb.GamesChannel do
   use LasWeb, :channel
 
-  alias Room.GameServer
-
   def join("Welcome! Party Room:" <> game, payload, socket) do
     if authorized?(payload) do
       socket = assign(socket, :game, game)
-      #view = GameServer.view(game, socket.assigns[:user])
-      {:ok, %{"join" => game, "game" => "view"}, socket}
+      view = %{authorized: true}
+      {:ok, %{"join" => game, "view" => view}, socket}
     else
       {:error, %{reason: "unauthorized"}}
       end
@@ -24,8 +22,13 @@ defmodule LasWeb.GamesChannel do
   end
 
   # TODO Add authorization logic here as required.
-  defp authorized?(%{"token" => token}) do
-    # IO.inspect(token)
-      token
+  defp authorized?(payload) do
+    user_id = Map.get(payload, "user")
+    if user_id do
+      # TODO make DB call to check that they are authenticated
+      true
+    else
+      false
     end
+  end
 end

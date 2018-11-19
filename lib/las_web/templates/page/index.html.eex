@@ -8,7 +8,7 @@
           <div>Spotify Name: <%= @current_user.name %>
           <div>Followers: <%= @current_user.followers %> </div>
           <div>Spotify Link: <%= @current_user.spotify_url %> </div>
-
+          
         <br><br>
         <div>
           <h1 id="join-party-page">Join a Party!</h1>

@@ -12,8 +12,7 @@ function start() {
   let root = document.getElementById('root');
   if (root) {
     socket.connect();
-    // TODO come up with a param to pass into token to help authorize the connnection.
-    let channel = socket.channel("Welcome! Party Room:" + window.gameName, {token: true});
+    let channel = socket.channel("Welcome! Party Room:" + window.gameName, {user: window.user_id});
     game_init(root, channel);
   }
 }
