@@ -52,6 +52,12 @@ defmodule LasWeb.AuthController do
     |> redirect(to: "/")
   end
 
+  def callback(conn, %{"provider" => provider}) do
+    party_name = get_session(conn, :party_name)
+    conn
+    |> redirect(to: "/party/#{party_name}")
+  end
+
   defp authorize_url!("spotify") do
     Spotify.authorize_url!()
   end
