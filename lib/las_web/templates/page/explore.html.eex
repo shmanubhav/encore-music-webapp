@@ -1,17 +1,20 @@
 <div class="container">
-  <p class="my-3">
-    <h1>Welcome <%= @current_login_user.first_name %>! </h1>
+    <div class="row">
+      <h1 class="mt-3">Welcome <%= @current_login_user.first_name %>! </h1>
     <!-- <div>Spotify Name: <%= @current_user.name %>
     <div>Followers: <%= @current_user.followers %> </div>
     <div>Spotify Link: <%= @current_user.spotify_url %> </div> -->
-
-  <br><br>
-  <div>
-    <%= form_for @conn, "/join", [as: :join, class: "form-inline"], fn f -> %>
-      <p><%= text_input f, :party_name, placeholder: "Party Name" %></p>
-      <p><%= submit "Join Party" %>
+    </div>
+    <div class="row mt-3">
+      <div class="col-4">
+        <%= form_for @conn, "/join", [as: :join, class: "form-inline"], fn f -> %>
+          <p><%= text_input f, :party_name, placeholder: "Party Name" %></p>
+          <p><%= submit "Join Party", class: "btn btn-primary"%></p>
+        <% end %>
       </div>
-    <% end %>
-  </p>
+      <div class="col-2 ml-0">
+        <%= link("Create New Party", to: Routes.room_path(@conn, :new), class: "inline btn btn-secondary") %>
+      </div>
+    </div>
 
 </div>
