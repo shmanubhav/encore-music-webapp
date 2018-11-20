@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<%= if ! @current_login_user do %>
+  <html lang="en" class="login-page">
+<% else %>
+  <html lang="en">
+<% end %>
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -12,18 +16,22 @@
       </script>
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
   </head>
-  <body>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <%= if @current_login_user do %>
-          <div class="col-4">
-            <a class="navbar-brand" href="/users/<%=@current_login_user.id%>">Your Profile</a> |
-          </div>
-          <div class="col-4">
-            <%= link("Logout", to: Routes.auth_path(@conn, :delete),
-            method: :delete) %>
-          </div>
-        <% end %>
-      </nav>
+  <%= if ! @current_login_user do %>
+    <body class="login-page">
+  <% else %>
+    <body>
+  <% end %>
+      <%= if @current_login_user do %>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="col-4">
+              <a class="navbar-brand" href="/users/<%=@current_login_user.id%>">Your Profile</a> |
+            </div>
+            <div class="col-4">
+              <%= link("Logout", to: Routes.auth_path(@conn, :delete),
+              method: :delete) %>
+            </div>
+        </nav>
+      <% end %>
       <div class="row">
         <div class="col-12">
           <%= if get_flash(@conn, :info) do %>

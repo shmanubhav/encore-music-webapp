@@ -1,35 +1,12 @@
 <div class="container login">
-  <div id="login">
     <%= if @current_login_user do %>
-    <h1>CROWD DJ APP</h1>
-      <%= if @current_user do %>
-        <p class="my-3">
-          <h1>Welcome User: <%= @current_login_user.first_name %> </h1>
-          <div>Spotify Name: <%= @current_user.name %>
-          <div>Followers: <%= @current_user.followers %> </div>
-          <div>Spotify Link: <%= @current_user.spotify_url %> </div>
-
-        <br><br>
-        <div>
-          <h1 id="join-party-page">Join a Party!</h1>
-          <%= form_for @conn, "/join", [as: :join], fn f -> %>
-            <p>Party Name: <%= text_input f, :party_name %></p>
-            <p>Party Code: <%= number_input f, :party_code %></p>
-            <p><%= submit "Join Party" %>
-            </div>
-          <% end %>
-
-        </p>
-        <%= link("Logout", to: Routes.auth_path(@conn, :delete),
-        method: :delete) %>
-      <% else %>
-          <a class="btn btn-primary btn-lg" href="<%= Routes.auth_path(@conn, :index, "spotify") %>">
-            <i class="fa fa-google"></i>
-            Sign in with Spotify
-          </a>
-          <%= link("Logout", to: Routes.auth_path(@conn, :delete),
-          method: :delete) %>
-      <% end %>
+      <h1>CROWD DJ APP</h1>
+      <a class="btn btn-primary btn-lg" href="<%= Routes.auth_path(@conn, :index, "spotify") %>">
+        <i class="fa fa-google"></i>
+        Sign in with Spotify
+      </a>
+      <%= link("Logout", to: Routes.auth_path(@conn, :delete),
+      method: :delete) %>
     <% else %>
     <div class="row">
       <div class="col"><h1 class="title">Crowd DJ</h1></div>
@@ -45,13 +22,13 @@
         </div>
        <div class="col-3"></div>
       </div>
-
-      <div class="col-8">
-      <p class="float-right">Don't have an account yet?
-        <%= link "Register", to: Routes.user_path(@conn, :new), class: "float-center" %>
-      </p>
-    </div>
+      <div class="row">
+          <div class="col-8">
+            <p class="float-right">Don't have an account yet?
+              <%= link "Register", to: Routes.user_path(@conn, :new), class: "float-center" %>
+            </p>
+          </div>
+      </div>
     <% end %>
     <% end %>
-  </div>
 </div>
