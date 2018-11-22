@@ -1,0 +1,62 @@
+/* This file is for your main application css. */
+@import "~bootstrap/scss/bootstrap";
+
+.login {
+  margin-top: 15%;
+}
+
+// Background gradient animation from: https://codepen.io/P1N2O/pen/pyBNzX
+body {
+  margin: 0;
+  height: 100%;
+}
+
+.login-page {
+  background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+  background-size: 400% 400%;
+  -webkit-animation: Gradient 15s ease infinite;
+  -moz-animation: Gradient 15s ease infinite;
+  animation: Gradient 15s ease infinite;
+  @-webkit-keyframes Gradient {
+    0% {
+      background-position: 0% 50%
+    }
+    50% {
+      background-position: 100% 50%
+    }
+    100% {
+      background-position: 0% 50%
+    }
+  }
+
+  @-moz-keyframes Gradient {
+    0% {
+      background-position: 0% 50%
+    }
+    50% {
+      background-position: 100% 50%
+    }
+    100% {
+      background-position: 0% 50%
+    }
+  }
+
+  @keyframes Gradient {
+    0% {
+      background-position: 0% 50%
+    }
+    50% {
+      background-position: 100% 50%
+    }
+    100% {
+      background-position: 0% 50%
+    }
+  }
+}
+
+.title {
+  margin-left: 30%;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 68px;
+  color: white;
+}

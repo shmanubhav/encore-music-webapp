@@ -10,6 +10,8 @@ defmodule LasWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :assign_current_user
+    plug :assign_current_login_user
+    plug LasWeb.Plugs.FetchSession
 
   end
 
@@ -25,6 +27,11 @@ defmodule LasWeb.Router do
     resources "/rooms", RoomController
     resources "/users", UserController
     resources "/songs", SongController
+    resources "/sessions", SessionController, only: [:create, :delete], singleton: true
+    post "/join", PageController, :join
+    get "/party/:party", PageController, :party
+    get "/explore", PageController, :explore
+
   end
 
   scope "/auth", LasWeb do
@@ -40,6 +47,16 @@ defmodule LasWeb.Router do
   # `@current_user`.
   defp assign_current_user(conn, _) do
     assign(conn, :current_user, get_session(conn, :current_user))
+  end
+
+  # Fetch the current login user from the session and add it to `conn.assigns`. This
+  # will allow you to have access to the current login user in your views with
+  # `@current_login_user`.
+  # We do this in order to distinguish the login user (user to our site) with the
+  # Spotify logged in user, since a user has to login to our app and then also login
+  # to Spotify as well.
+  defp assign_current_login_user(conn, _) do
+    assign(conn, :current_login_user, get_session(conn, :current_login_user))
   end
 
   # Other scopes may use custom stacks.

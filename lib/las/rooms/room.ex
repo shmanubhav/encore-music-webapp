@@ -2,7 +2,6 @@ defmodule Las.Rooms.Room do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "rooms" do
     field :code, :integer
     field :name, :string
@@ -16,6 +15,7 @@ defmodule Las.Rooms.Room do
   def changeset(room, attrs) do
     room
     |> cast(attrs, [:name, :code])
+    |> unique_constraint(:name)
     |> validate_required([:name, :code])
   end
 end

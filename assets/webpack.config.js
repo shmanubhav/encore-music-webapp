@@ -19,35 +19,92 @@ module.exports = (env, options) => ({
     filename: 'app.js',
     path: path.resolve(__dirname, '../priv/static/js')
   },
-  node: {
-   fs: "empty",
-   net: "empty",
-   tls: "empty"
-  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/env', '@babel/react'],
+          },
         }
       },
       {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
-      }
+      },
+      {
+        test: /\.scss$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+      },
     ]
   },
-  target: "node",
-  node: {
-    fs: "empty",
-    net: "empty",
-    tls: "empty",
-    express: "empty"
+  resolve: {
+    extensions: ['.js', '.jsx', '.css', '.scss'],
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: '../css/app.css' }),
     new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
   ]
 });
+
+
+// const path = require('path');
+// const glob = require('glob');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
+//
+// module.exports = (env, options) => ({
+//   optimization: {
+//     minimizer: [
+//       new UglifyJsPlugin({ cache: true, parallel: true, sourceMap: false }),
+//       new OptimizeCSSAssetsPlugin({})
+//     ]
+//   },
+//   entry: {
+//       './js/app.js': ['./js/app.js'].concat(glob.sync('./vendor/**/*.js'))
+//   },
+//   output: {
+//     filename: 'app.js',
+//     path: path.resolve(__dirname, '../priv/static/js')
+//   },
+//   node: {
+//    fs: "empty",
+//    net: "empty",
+//    tls: "empty"
+//   },
+//   module: {
+//     rules: [
+//       {
+//         test: /\.js$/,
+//         exclude: /node_modules/,
+//         use: {
+//           loader: 'babel-loader'
+//         }
+//       },
+//       {
+//         test: /\.css$/,
+//         use: [MiniCssExtractPlugin.loader, 'css-loader']
+//       },
+//       {
+//       test: /\.scss$/,
+//       use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+//     },
+//     ]
+//   },
+//   target: "node",
+//   node: {
+//     fs: "empty",
+//     net: "empty",
+//     tls: "empty",
+//     express: "empty"
+//   },
+//   plugins: [
+//     new MiniCssExtractPlugin({ filename: '../css/app.css' }),
+//     new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
+//   ]
+// });

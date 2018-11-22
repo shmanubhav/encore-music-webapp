@@ -2,11 +2,11 @@ defmodule Las.Songs.Song do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "songs" do
     field :author, :string
     field :playing, :boolean, default: false
     field :title, :string
+    belongs_to :room, Las.Rooms.Room
 
     timestamps()
   end

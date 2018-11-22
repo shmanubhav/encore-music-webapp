@@ -9,7 +9,6 @@ defmodule LasWeb.AuthController do
   based on the chosen strategy.
   """
   def index(conn, %{"provider" => provider}) do
-    IO.puts(provider)
     redirect conn, external: authorize_url!(provider)
   end
 
@@ -17,6 +16,7 @@ defmodule LasWeb.AuthController do
     conn
     |> put_flash(:info, "You have been logged out!")
     |> configure_session(drop: true)
+    |> delete_session(:assign_current_login_user)
     |> redirect(to: "/")
   end
 
@@ -49,7 +49,14 @@ defmodule LasWeb.AuthController do
     conn
     |> put_session(:current_user, user)
     |> put_session(:access_token, client.token.access_token)
-    |> redirect(to: "/")
+    # TODO: Possibly fix this
+    |> redirect(to: "/explore")
+  end
+
+  def callback(conn, %{"provider" => provider}) do
+    party_name = get_session(conn, :party_name)
+    conn
+    |> redirect(to: "/party/#{party_name}")
   end
 
   defp authorize_url!("spotify") do

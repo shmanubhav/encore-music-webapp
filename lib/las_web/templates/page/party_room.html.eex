@@ -1,0 +1,16 @@
+<script>
+ window.gameName = "<%= @party_name %>";
+ window.user_id = "<%= @user.id %>";
+</script>
+
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+
+
+ <div class="row">
+  <div class="column">
+    <h1>Party Room: <%= @party_name %></h1>
+    <div id="root">
+      <p>React component loading...</p>
+    </div>
+  </div>
+</div>

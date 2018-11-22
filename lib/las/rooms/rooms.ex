@@ -55,6 +55,12 @@ defmodule Las.Rooms do
     |> Repo.insert()
   end
 
+  def validate_code(room_name, code) do
+    Repo.one from r in Room,
+      where: r.name == ^room_name and r.code == ^code,
+      preload: [:user, :song]
+  end
+
   @doc """
   Updates a room.
 

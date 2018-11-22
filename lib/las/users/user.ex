@@ -18,6 +18,8 @@ defmodule Las.Users.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:email, :first_name, :last_name, :password_hash, :admin])
+    |> unique_constraint(:email)
     |> validate_required([:email, :first_name, :last_name, :password_hash, :admin])
+
   end
 end
