@@ -34,7 +34,6 @@ defmodule LasWeb.AuthController do
     # This means we can get back their data
     user = get_user!(provider, client)
     songs = get_recently_played!(provider, client)
-    IO.inspect(songs)
     # TODO implement
 
     #User.insert_or_update(user)

@@ -54,9 +54,25 @@ body {
   }
 }
 
+#activity-title {
+  color: #0d4559;
+  font-weight: 700;
+}
+
 .title {
   margin-left: 30%;
   font-family: 'Archivo Black', sans-serif;
   font-size: 68px;
   color: white;
+}
+
+.song-title {
+  font-weight: 700;
+  text-align: center;
+}
+
+.song {
+  border: 2px solid #0d4559;
+  border-radius: 5px;
+  background-color: #a7ddf1;
 }
