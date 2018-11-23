@@ -5,8 +5,6 @@ defmodule Las.Rooms.Room do
   schema "rooms" do
     field :code, :integer
     field :name, :string
-    has_many :user, Las.Users.User
-    has_many :song, Las.Songs.Song
 
     timestamps()
   end

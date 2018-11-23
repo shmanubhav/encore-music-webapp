@@ -14,7 +14,8 @@ defmodule LasWeb.PageController do
   end
 
   def explore(conn, _params) do
-    render(conn, "explore.html")
+    recently_played = get_session(conn, :recently_played).songs
+    render(conn, "explore.html", recent_songs: recently_played)
   end
 
   def join(conn, %{"join" => %{"party_name" => party_name, "party_code" => party_code}}) do
