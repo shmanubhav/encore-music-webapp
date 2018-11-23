@@ -9,6 +9,7 @@ defmodule Las.Users.User do
     field :first_name, :string
     field :last_name, :string
     field :password_hash, :string
+    has_many :room, Las.Rooms.Room
 
     timestamps()
   end

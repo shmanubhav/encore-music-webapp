@@ -5,6 +5,7 @@ defmodule Las.Rooms.Room do
   schema "rooms" do
     field :code, :integer
     field :name, :string
+    belongs_to :user, Las.Users.User
 
     timestamps()
   end
@@ -12,7 +13,7 @@ defmodule Las.Rooms.Room do
   @doc false
   def changeset(room, attrs) do
     room
-    |> cast(attrs, [:name, :code])
+    |> cast(attrs, [:name, :code, :user_id])
     |> unique_constraint(:name)
     |> validate_required([:name, :code])
   end
