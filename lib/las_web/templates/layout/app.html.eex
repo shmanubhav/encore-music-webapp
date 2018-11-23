@@ -22,16 +22,13 @@
     <body>
   <% end %>
       <%= if @current_login_user do %>
-      <div class="container-fluid">
-          <nav class="row navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid" id="nav-color">
+          <nav class="row navbar navbar-expand-lg">
               <div class="col-9"></div>
-              <div class="col-1">
-                <a class="navbar-brand" href="/users/<%=@current_login_user.id%>">Your Profile</a>
-              </div>
-              <div class="col-1"></div>
-              <div class="col-1">
-                <%= link("Logout", to: Routes.auth_path(@conn, :delete), class: "btn btn-danger",
-                method: :delete) %>
+              <div class="col-3">
+                <a class="navbar-brand text-white" href="/users/<%=@current_login_user.id%>">Your Profile</a>
+                  <%= link("Logout", to: Routes.auth_path(@conn, :delete), class: "btn btn-pink",
+                  method: :delete) %>
               </div>
           </nav>
         </div>

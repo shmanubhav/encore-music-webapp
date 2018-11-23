@@ -9,6 +9,7 @@
 body {
   margin: 0;
   height: 100%;
+  background-color: #fdede8;
 }
 
 .login-page {
@@ -75,6 +76,11 @@ body {
   border: 2px solid #0d4559;
   border-radius: 5px;
   background-color: #a7ddf1;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.song:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 #new-room {
@@ -88,4 +94,24 @@ body {
   text-align: center;
   margin-bottom: 5%;
   font-weight: 700;
+}
+
+#nav-color {
+  background-color: #0d4559;
+}
+
+.btn-pink {
+  background-color: #E73C7E;
+  color: white;
+}
+
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 5%;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
