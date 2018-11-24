@@ -2,6 +2,8 @@
 defmodule LasWeb.GamesChannel do
   use LasWeb, :channel
 
+  alias Las.RoomUsers
+
   def join("Welcome! Party Room:" <> game, payload, socket) do
     if authorized?(payload) do
       socket = assign(socket, :game, game)
@@ -21,14 +23,16 @@ defmodule LasWeb.GamesChannel do
     {:noreply, socket}
   end
 
-  # TODO Add authorization logic here as required.
+  # Authorization logic here as required.
   defp authorized?(payload) do
     user_id = Map.get(payload, "user")
-    if user_id do
-      # TODO make DB call to check that they are authenticated - that the join table
-      # between users and rooms contains this user
+    room_id = Map.get(payload, "room")
 
-      true
+    if user_id != nil and room_id != nil do
+      roomuser = RoomUsers.room_contains_user(user_id, room_id)
+      if roomuser do
+        true
+      end
     else
       false
     end
