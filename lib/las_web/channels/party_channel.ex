@@ -8,10 +8,8 @@ defmodule LasWeb.GamesChannel do
   def join("Welcome! Party Room:" <> game, payload, socket) do
     if authorized?(payload) do
       socket = assign(socket, :game, game)
-      IO.inspect(game)
-      PartyServer.add_user(game, socket.assigns[:user].id)
+      PartyServer.add_user(game, socket.assigns[:user])
       view = PartyServer.view(game, socket.assigns[:user])
-      IO.inspect(view)
       {:ok, %{"join" => game, "view" => view}, socket}
     else
       {:error, %{reason: "unauthorized"}}

@@ -20,8 +20,8 @@ defmodule Las.PartyServer do
   end
 
   def handle_call({:view, game, user}, _from, state) do
+    IO.inspect(state)
     gg = Map.get(state, game, Party.new)
-    IO.inspect(game)
     {:reply, Party.client_view(gg, user), Map.put(state, game, gg)}
   end
 
@@ -29,7 +29,7 @@ defmodule Las.PartyServer do
     gg = Map.get(state, game, Party.new)
     |> Party.add_user(user)
     vv = Party.client_view(gg, user)
-    MemoryWeb.Endpoint.broadcast("games:" <> game, "change_view", vv)
+    LasWeb.Endpoint.broadcast("games:" <> game, "change_view", vv)
     {:reply, vv, Map.put(state, game, gg)}
   end
 
