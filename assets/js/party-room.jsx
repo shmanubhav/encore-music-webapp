@@ -4,6 +4,10 @@ import _ from 'lodash';
 
 export default function game_init(root, channel) {
   ReactDOM.render(<Party channel={channel} />, root);
+  // If there is no token, redirect to Spotify authorization to authorize the APP with SDK
+  if (!_token) {
+   window.location = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
+  }
 }
 
 // Get the hash of the url
@@ -34,10 +38,7 @@ const scopes = [
   'user-modify-playback-state'
 ];
 
-// If there is no token, redirect to Spotify authorization
-if (!_token) {
-  window.location = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
-}
+
 
 // Play a specified track on the Web Playback SDK's device ID
 function play(device_id) {

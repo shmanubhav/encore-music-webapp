@@ -49,6 +49,7 @@ defmodule LasWeb.PageController do
     user = get_session(conn, :current_login_user)
     if room do
       conn
+      |> put_session(:party_name, party_name)
       |> redirect(to: "/party/#{party_name}")
     else
       conn
