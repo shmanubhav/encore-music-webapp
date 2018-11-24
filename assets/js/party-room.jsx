@@ -78,7 +78,7 @@ class Party extends React.Component {
   }
 
 onPauseClick() {
-  this.player.pause().then(() => {
+  this.player.togglePlay().then(() => {
     console.log('Paused!');
   });
 }
@@ -107,16 +107,20 @@ onPlayClick() {
         $('#current-track').attr('src',     state.track_window.current_track.album.images[0].url);
         $('#current-track-name').text(state.track_window.current_track.name);
       });
-
+      this.player.connect();
+      this.player.addListener('ready', ({ device_id }) => {
+        console.log('The Web Playback SDK is ready to play music!');
+        console.log('Device ID', device_id);
+      });
+      console.log(this.player);
       // Ready
       this.player.on('ready', data => {
         console.log('Ready with Device ID', data.device_id);
-
         // Play a track using our new device ID
         play(data.device_id);
       });
+
     // Connect to the player!
-      this.player.connect();
     }
 
     if (this.state.authorized) {
