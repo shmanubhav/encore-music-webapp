@@ -11,9 +11,11 @@ defmodule Las.Application do
       # Start the Ecto repository
       Las.Repo,
       # Start the endpoint when the application starts
-      LasWeb.Endpoint
+      LasWeb.Endpoint,
       # Starts a worker by calling: Las.Worker.start_link(arg)
       # {Las.Worker, arg},
+      Las.PartyServer,
+
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
