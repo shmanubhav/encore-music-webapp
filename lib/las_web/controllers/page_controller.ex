@@ -16,6 +16,7 @@ defmodule LasWeb.PageController do
 
   def explore(conn, _params) do
     recently_played = get_session(conn, :recently_played).songs
+    uri_list = Enum.map(recently_played, fn x -> x[:uri] end)
     user = get_session(conn, :current_login_user)
     your_rooms = Rooms.get_room_owner(user.id)
     room_ids = Enum.map(RoomUsers.get_rooms_for_user(user.id), fn ri -> ri.room_id end)
@@ -62,6 +63,8 @@ defmodule LasWeb.PageController do
   end
 
   def party(conn, %{"party" => party_name}) do
+    recently_played = get_session(conn, :recently_played).songs
+    uri_list = Enum.map(recently_played, fn x -> x[:uri] end)
     user = get_session(conn, :current_login_user)
     spotify_user = get_session(conn, :current_user)
     room = Rooms.get_room(party_name)
@@ -70,7 +73,7 @@ defmodule LasWeb.PageController do
       {:ok, roomuser} ->
         conn
         |> put_session(:party_name, party_name)
-        |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user)
+        |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user, uri_list: uri_list)
       {:error, %Ecto.Changeset{} = changeset} ->
           render(conn, "/", changeset: changeset)
     end

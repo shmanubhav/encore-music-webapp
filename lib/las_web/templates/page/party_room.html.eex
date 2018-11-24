@@ -1,15 +1,27 @@
 <script>
- window.gameName = "<%= @party_name %>";
- window.user_id = "<%= @user.id %>";
+  window.gameName = "<%= @party_name %>";
+  window.user_id = "<%= @user.id %>";
+  window.uri_list = [];
+  <%= for uri <- @uri_list do %>
+    uri_list.push("<%= uri %>");
+  <% end %>
+  console.log(uri_list);
 </script>
 
 <script src="https://sdk.scdn.co/spotify-player.js"></script>
 
 
- <div class="row">
-  <div class="column">
-    <h1>Party Room: <%= @party_name %></h1>
-    <div id="root">
-    </div>
+<div class="container">
+  <div class="row">
+    <div class="col-5">
+      <h1>Party Room: <%= @party_name %></h1>
+      <div id="root"></div>
+      <h2 class="text-center" id="activity-title">URIs</h2>
+        <%= for uri <- @uri_list do %>
+          <div class="song">
+            <p class="song-title mt-1 mb-0 my-0"><%= uri %></p>
+          </div>
+        <% end %>
+      </div>
   </div>
 </div>

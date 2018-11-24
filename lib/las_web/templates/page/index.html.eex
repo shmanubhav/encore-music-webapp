@@ -7,7 +7,7 @@
       </a>
     <% else %>
     <div class="row">
-      <div class="col"><h1 class="title">Crowd DJ</h1></div>
+      <div class="col"><h1 class="title">LAS App</h1></div>
     </div>
       <div class="row">
         <div class="col-3"></div>

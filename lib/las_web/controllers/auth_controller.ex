@@ -84,7 +84,7 @@ defmodule LasWeb.AuthController do
 
   defp get_recently_played!("spotify", client) do
     %{body: songs} = OAuth2.Client.get!(client, "/v1/me/player/recently-played?limit=10")
-    %{songs: Enum.map(songs["items"], fn x -> %{title: x["track"]["name"], artists: Enum.map(x["track"]["artists"],
+    %{songs: Enum.map(songs["items"], fn x -> %{title: x["track"]["name"], uri: x["track"]["uri"], artists: Enum.map(x["track"]["artists"],
     fn y-> %{name: y["name"]} end)} end)}
   end
 

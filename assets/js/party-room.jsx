@@ -42,10 +42,11 @@ const scopes = [
 
 // Play a specified track on the Web Playback SDK's device ID
 function play(device_id) {
+  console.log('{"uris": ["'+window.uri_list.join('","')+'"]}');
   $.ajax({
    url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id,
    type: "PUT",
-   data: '{"uris": ["spotify:track:3JrMXGfyYUlBNKrHe99Csy"]}',
+   data: '{"uris": ["'+window.uri_list.join('","')+'"]}',
    beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + _token );},
    success: function(data) { 
      console.log(data)
