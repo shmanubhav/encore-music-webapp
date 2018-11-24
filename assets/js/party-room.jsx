@@ -47,7 +47,7 @@ function play(device_id) {
    type: "PUT",
    data: '{"uris": ["spotify:track:3JrMXGfyYUlBNKrHe99Csy"]}',
    beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + _token );},
-   success: function(data) {
+   success: function(data) { 
      console.log(data)
    }
   });
@@ -57,7 +57,11 @@ class Party extends React.Component {
   constructor(props) {
     super(props);
     this.channel = props.channel;
-    this.state = { authorized: false, users: [], song_queue: [], currently_playing: []
+    this.state = {
+      authorized: false,
+      users: [],
+      song_queue: [],
+      currently_playing: []
     }
 
     this.channel.join()
@@ -66,33 +70,33 @@ class Party extends React.Component {
   }
 
   gotView(view) {
+    console.log("we joined the channel??")
     console.log(view)
     this.setState(view.view);
+    console.log(view)
   }
 
   render() {
-    console.log("here1");
-    // Set up the Web Playback SDK
 
     window.onSpotifyPlayerAPIReady = () => {
       const player = new Spotify.Player({
         name: 'LAS Spotify Player',
         getOAuthToken: cb => { cb(_token); }
       });
-
+    
       // Error handling
       player.on('initialization_error', e => console.error(e));
       player.on('authentication_error', e => console.error(e));
       player.on('account_error', e => console.error(e));
       player.on('playback_error', e => console.error(e));
-
+    
       // Playback status updates
       player.on('player_state_changed', state => {
         console.log(state)
         $('#current-track').attr('src',     state.track_window.current_track.album.images[0].url);
         $('#current-track-name').text(state.track_window.current_track.name);
       });
-
+    
       // Ready
       player.on('ready', data => {
         console.log('Ready with Device ID', data.device_id);
@@ -100,28 +104,75 @@ class Party extends React.Component {
         // Play a track using our new device ID
         play(data.device_id);
       });
-
+    
       // Connect to the player!
       player.connect();
     }
+      // window.onSpotifyWebPlaybackSDKReady = () => {
+        // You can now initialize Spotify.Player and use the SDK
+        // console.log("here2");
+        // const token = window.token;
+        // const player = new Spotify.Player({
+        //   name: 'LAS Spotify Player',
+        //   getOAuthToken: cb => { cb(token); }
+        // });
+        // // Error handling
+        // player.addListener('initialization_error', ({ message }) => {  console.error(message); });
+        // player.addListener('authentication_error', ({ message }) => {  console.error(message); });
+        // player.addListener('account_error', ({ message }) => { console.error (message); });
+        // player.addListener('playback_error', ({ message }) => { console.error  (message); });
+        // // Playback status updates
+        // player.addListener('player_state_changed', state => { console.log  (state); });
+        // // Ready
+        // player.addListener('ready', ({ device_id }) => {
+        //   console.log('Ready with Device ID', device_id);
+        // });
+        // // Not Ready
+        // player.addListener('not_ready', ({ device_id }) => {
+        //   console.log('Device ID has gone offline', device_id);
+        // });
+      // // Connect to the player!
+      // player.connect();
+      // var player = new Spotify.Player({
+      //   name: 'Spotify Player',
+      //   getOAuthToken: callback => {
+      //     // Run code to get a fresh access token
+      //     callback(window.userToken);
+      //   },
+      //   volume: 0.5
+      //   });
+      // // player.addListener('ready', ({ device_id }) => {
+      // //   console.log('Connected with Device ID', device_id);
+      // // });
+      // player.connect().then(success => {
+      //   if (success) {
+      //     console.log('The Web Playback SDK successfully connected to Spotify!');
+      //   }
+      // });
+    // };
 
-    if (this.state.authorized) {
+    // if (this.state.authorized) {
       return (
         <div>
           <p>
             User Entered the Party Room!!!
         </p>
+
         </div>
       )
-    }
-    else {
-      return (
-        <div>
-          <p>
-            YOU ARE NOT AUTHORIZED TO JOIN THIS PARTY
-          </p>
-        </div>
-      )
-    };
+    // }
+    // else {
+    //   return (
+    //     <div>
+    //       <p>
+    //         YOU ARE NOT AUTHORIZED TO JOIN THIS PARTY
+    //       </p>
+    //     </div>
+    //   )
+    // };
   }
 }
+
+
+
+
