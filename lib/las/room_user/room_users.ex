@@ -9,12 +9,15 @@ defmodule Las.RoomUsers do
     |> RoomUser.changeset(attrs)
     |> Repo.insert()
   end
-
-  # Returns the RoomUser if the given user_id and room_id are a row in Row users
-  # table, meaning the user belongs to this room.
-  def room_contains_user(user_id, room_id) do
-      Repo.one from r in RoomUser,
-      where: r.user_id == ^user_id and r.room_id == ^room_id
+  # get all of the rooms that the user is a member of
+  def get_rooms_for_user(user_id) do
+    room_users = Repo.all(RoomUser)
+    Enum.filter(room_users, fn ru -> ru.user_id == user_id end)
   end
 
+  # check if the user is already in the room
+  def check_user(user_id, room_id) do
+    room_users = Repo.all(RoomUser)
+    Enum.filter(room_users, fn ru -> ru.user_id == user_id && ru.room_id == room_id end)
+  end
 end

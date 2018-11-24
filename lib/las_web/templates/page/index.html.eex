@@ -1,12 +1,10 @@
 <div class="container login">
     <%= if @current_login_user do %>
-      <h1>CROWD DJ APP</h1>
+      <h1>LAS</h1>
       <a class="btn btn-primary btn-lg" href="<%= Routes.auth_path(@conn, :index, "spotify") %>">
         <i class="fa fa-google"></i>
         Sign in with Spotify
       </a>
-      <%= link("Logout", to: Routes.auth_path(@conn, :delete),
-      method: :delete) %>
     <% else %>
     <div class="row">
       <div class="col"><h1 class="title">Crowd DJ</h1></div>

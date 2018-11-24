@@ -1,5 +1,0 @@
-#!/bin/bash
-
-export SPOTIFY_REDIRECT_URI="http://localhost:4000/auth/callback/"
-export SPOTIFY_CLIENT_ID="1563cdbe2b284610844bce69f7367ae7"
-export SPOTIFY_CLIENT_SECRET="c33657b97181452c937a38e43e1c4306"

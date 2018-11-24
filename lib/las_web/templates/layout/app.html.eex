@@ -8,7 +8,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Crowd DJ App · Phoenix Framework</title>
+    <title>LAS App · Phoenix Framework</title>
     <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
       <script>
@@ -23,7 +23,9 @@
       <%= if @current_login_user do %>
       <div class="container-fluid" id="nav-color">
           <nav class="row navbar navbar-expand-lg">
-              <div class="col-9"></div>
+              <div class="col-9">
+              <a class="navbar-brand text-white" href="/">LAS</a>
+              </div>
               <div class="col-3">
                 <a class="navbar-brand text-white" href="/users/<%=@current_login_user.id%>">Your Profile</a>
                   <%= link("Logout", to: Routes.auth_path(@conn, :delete), class: "btn btn-pink",

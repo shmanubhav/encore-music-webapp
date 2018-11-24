@@ -29,7 +29,7 @@ defmodule LasWeb.GamesChannel do
     room_id = Map.get(payload, "room")
 
     if user_id != nil and room_id != nil do
-      roomuser = RoomUsers.room_contains_user(user_id, room_id)
+      roomuser = RoomUsers.check_user(user_id, room_id)
       if roomuser do
         true
       end
