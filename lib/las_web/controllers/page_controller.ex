@@ -16,7 +16,11 @@ defmodule LasWeb.PageController do
 
   def explore(conn, _params) do
     recently_played = get_session(conn, :recently_played).songs
-    render(conn, "explore.html", recent_songs: recently_played)
+    user = get_session(conn, :current_login_user)
+    your_rooms = Rooms.get_room_owner(user.id)
+    room_ids = Enum.map(RoomUsers.get_rooms_for_user(user.id), fn ri -> ri.room_id end)
+    rooms = Enum.map(room_ids, fn ri -> Rooms.get_room_id(ri) end) ++ your_rooms
+    render(conn, "explore.html", recent_songs: recently_played, rooms: rooms)
   end
 
   def enter(conn, %{"enter" => %{"party_name" => party_name}}) do
