@@ -41,7 +41,6 @@ defmodule LasWeb.PageController do
   end
 
   def join(conn, %{"join" => %{"party_name" => party_name, "party_code" => party_code}}) do
-
     # check that the fields are filled out.
     if party_name == "" or party_code == "" do
       conn
@@ -49,12 +48,26 @@ defmodule LasWeb.PageController do
       |> redirect(to: "/enter")
     end
 
+    user = get_session(conn, :current_login_user)
     # Validate that the code is correct.
     room = Rooms.validate_code(party_name, party_code)
-    user = get_session(conn, :current_login_user)
     if room do
-      conn
-      |> redirect(to: "/party/#{party_name}")
+      roomuser = RoomUsers.room_contains_user(user.id, room.id)
+      # If user gave the right code and they aren't part of the group, add them and proceed
+      if !roomuser do
+        case RoomUsers.create_room_user(%{room_id: room.id, user_id: user.id}) do
+          {:ok, roomuser} ->
+            conn
+            |> put_session(:party_name, party_name)
+            |> redirect(to: "/party/#{party_name}")
+          {:error, %Ecto.Changeset{} = changeset} ->
+              render(conn, "/", changeset: changeset)
+          end
+        else
+          conn
+          |> put_session(:party_name, party_name)
+          |> redirect(to: "/party/#{party_name}")
+      end
     else
       conn
       |> put_flash(:error, "Denied joining Party Room: Incorrect room code.")
@@ -66,20 +79,25 @@ defmodule LasWeb.PageController do
     user = get_session(conn, :current_login_user)
     spotify_user = get_session(conn, :current_user)
     room = Rooms.get_room(party_name)
-    in_room = RoomUsers.check_user(user.id, room.id)
-    if length(in_room) != 0 do
+
+    if !room do
+      conn
+      |> put_flash(:error, "Denied joining Party Room. Room doesn't exist.")
+      |> redirect(to: "/")
+    end
+
+    # Check if user belongs to this room.
+    in_room = RoomUsers.room_contains_user(user.id, room.id)
+
+    if in_room do
       conn
       |> put_session(:party_name, party_name)
-      |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user)
+      |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user, party_id: room.id)
     else
-      case RoomUsers.create_room_user(%{room_id: room.id, user_id: user.id}) do
-        {:ok, roomuser} ->
-          conn
-          |> put_session(:party_name, party_name)
-          |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user)
-        {:error, %Ecto.Changeset{} = changeset} ->
-            render(conn, "/", changeset: changeset)
-      end
+    conn
+      |> put_flash(:error, "Denied joining Party Room.")
+      |> redirect(to: "/")
+
     end
   end
 end
