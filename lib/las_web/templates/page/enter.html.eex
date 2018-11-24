@@ -1,0 +1,9 @@
+<div class="container">
+    <div class="row">
+      <%= form_for @conn, "/join", [as: :join, class: "form-inline"], fn f -> %>
+        <p><%= hidden_input f, :party_name, value: @party_name %></p>
+        <p><%= text_input f, :party_code, placeholder: "Enter Code" %></p>
+        <p><%= submit "Enter Party", class: "btn btn-primary"%></p>
+      <% end %>
+    </div>
+</div>
