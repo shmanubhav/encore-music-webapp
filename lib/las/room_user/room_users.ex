@@ -15,9 +15,10 @@ defmodule Las.RoomUsers do
     Enum.filter(room_users, fn ru -> ru.user_id == user_id end)
   end
 
-  # check if the user is already in the room
-  def check_user(user_id, room_id) do
-    room_users = Repo.all(RoomUser)
-    Enum.filter(room_users, fn ru -> ru.user_id == user_id && ru.room_id == room_id end)
+  # Returns the RoomUser if the given user_id and room_id are a row in Row users
+  # table, meaning the user belongs to this room.
+  def room_contains_user(user_id, room_id) do
+    Repo.one from r in RoomUser,
+    where: r.user_id == ^user_id and r.room_id == ^room_id
   end
 end
