@@ -1,9 +1,15 @@
-<div class="container">
+<div class="container card" id="enter">
     <div class="row">
-      <%= form_for @conn, "/join", [as: :join, class: "form-inline"], fn f -> %>
-        <p><%= hidden_input f, :party_name, value: @party_name %></p>
-        <p><%= text_input f, :party_code, placeholder: "Enter Code" %></p>
-        <p><%= submit "Enter Party", class: "btn btn-primary"%></p>
-      <% end %>
+      <div class="col-4"></div>
+      <div class="col-4">
+        <%= form_for @conn, "/join", [as: :join, class: "form-inline"], fn f -> %>
+          <p><%= hidden_input f, :party_name, value: @party_name %></p>
+          <p><%= text_input f, :party_code, placeholder: "Enter Code" %></p>
+          <p><%= submit "Enter Party", class: "btn btn-primary"%></p>
+        <% end %>
+      </div>
+      <div class="col-4"></div>
     </div>
+    <span class="float-right"><%= link "Back", class: "btn btn-secondary",
+     to: Routes.page_path(@conn, :index) %></span>
 </div>
