@@ -52,6 +52,11 @@ defmodule Las.Rooms do
     Enum.filter(rooms, fn r -> r.user_id == id end)
   end
 
+  def is_owner(user_id, room_name) do
+    Repo.one from r in Room,
+      where: r.name == ^room_name and r.user_id ==^user_id
+  end
+
   @doc """
   Creates a room.
 

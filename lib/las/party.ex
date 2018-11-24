@@ -23,25 +23,17 @@ defmodule Las.Party do
   def add_user(game, user) do
     IO.puts("Got into ADD USER")
     login_user = Las.Users.get_user!(user)
+    IO.inspect(login_user)
     users = game.users ++ [login_user]
+    IO.inspect(users)
     recently_played = Song.recently_played(login_user.token).songs
-    songs = game.song_queue ++ recently_played
-    IO.puts("Got ehre")
+    songs = game.song_queue ++ [recently_played]
+    IO.inspect(songs)
     Map.put(game, :users, users)
     Map.put(game, :song_queue, songs)
     game
-
   end
 
-  # def get_queue(game, user) do
-  #   IO.inspect(game)
-  #   login_user = Las.Users.get_user!(user)
-  #
-  #   IO.puts("recently plyaced")
-  #   IO.inspect(recently_played)
-  #   game.song_queue ++ recently_played
-  #
-  # end
 
 
 end
