@@ -76,9 +76,6 @@ class Party extends React.Component {
   }
 
   render() {
-    console.log("here1");
-    // Set up the Web Playback SDK
-
     window.onSpotifyPlayerAPIReady = () => {
       const player = new Spotify.Player({
         name: 'LAS Spotify Player',

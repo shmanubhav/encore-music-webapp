@@ -1,10 +1,10 @@
 <script>
  window.gameName = "<%= @party_name %>";
  window.user_id = "<%= @user.id %>";
+  window.room_id = "<%= @party_id %>";
 </script>
 
 <script src="https://sdk.scdn.co/spotify-player.js"></script>
-
 
  <div class="row">
   <div class="column">
