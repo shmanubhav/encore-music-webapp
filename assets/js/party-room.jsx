@@ -70,10 +70,10 @@ class Party extends React.Component {
   }
 
   gotView(view) {
-    console.log("we joined the channel??")
+    console.log("we joined the channel!!")
     console.log(view)
+    console.log(view.view)
     this.setState(view.view);
-    console.log(view)
   }
 
   render() {
@@ -150,6 +150,7 @@ class Party extends React.Component {
       //   }
       // });
     // };
+
 
     if (this.state.authorized) {
       return (

@@ -32,7 +32,10 @@ defmodule Las.PartyServer do
 
   def handle_call({:new_user, game, user}, _from, state) do
     gg = Map.get(state, game, Party.new)
-    |> Party.add_user(user)
+      |> Party.add_user(user)
+
+    # gg
+    #   |> Party.add_to_queue(user)
     vv = Party.client_view(gg, user)
     LasWeb.Endpoint.broadcast("games:" <> game, "change_view", vv)
     {:reply, vv, Map.put(state, game, gg)}

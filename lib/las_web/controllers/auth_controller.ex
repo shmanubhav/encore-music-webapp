@@ -2,7 +2,7 @@
 defmodule LasWeb.AuthController do
   use LasWeb, :controller
 
-  #alias LasWeb.User
+  alias LasWeb.Users
 
   @doc """
   This action is reached via `/auth/:provider` and redirects to the OAuth2 provider
@@ -30,20 +30,14 @@ defmodule LasWeb.AuthController do
     # Exchange an auth code for an access token
     client = get_token!(provider, code)
 
-    # Request the user's data with the access token
-    # This means we can get back their data
+    # Request the user's spotify data with the access token
     user = get_user!(provider, client)
-    # TODO implement
 
-    #User.insert_or_update(user)
+    login_user = get_session(conn, :current_login_user)
 
-    # Store the token in the "database"
+    # Store the token in the database
+    Las.Users.update_user(login_user, %{token: client.token.access_token})
 
-    # Store the user in the session under `:current_user` and redirect to /.
-    # In most cases, we'd probably just store the user's ID that can be used
-    # to fetch from the database. In this case, since this example app has no
-    # database, I'm just storing the user map.
-    #
     # If you need to make additional resource requests, you may want to store
     # the access token as well.
     conn
