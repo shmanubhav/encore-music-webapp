@@ -49,7 +49,6 @@ defmodule LasWeb.PageController do
     user = get_session(conn, :current_login_user)
     if room do
       conn
-      |> put_session(:party_name, party_name)
       |> redirect(to: "/party/#{party_name}")
     else
       conn
@@ -65,7 +64,9 @@ defmodule LasWeb.PageController do
     #TODO: check if entry is already in the room user table
     case RoomUsers.create_room_user(%{room_id: room.id, user_id: user.id}) do
       {:ok, roomuser} ->
-        render conn, "party_room.html", party_name: party_name , user: user, spotify_user: spotify_user
+        conn
+        |> put_session(:party_name, party_name)
+        |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user)
       {:error, %Ecto.Changeset{} = changeset} ->
           render(conn, "/", changeset: changeset)
     end
