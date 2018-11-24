@@ -36,10 +36,7 @@ defmodule Las.PartyServer do
     vv = Party.client_view(gg, user)
     LasWeb.Endpoint.broadcast("games:" <> game, "change_view", vv)
     {:reply, vv, Map.put(state, game, gg)}
+
   end
-
-
-
-
 
 end

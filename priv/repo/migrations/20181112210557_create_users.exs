@@ -8,6 +8,7 @@ defmodule Las.Repo.Migrations.CreateUsers do
       add :last_name, :string
       add :password_hash, :string
       add :admin, :boolean, default: false, null: false
+      add :token, :string
 
       timestamps()
     end

@@ -1,4 +1,7 @@
 defmodule Las.Party do
+
+  alias Las.Songs.Song
+
   def new do
     %{
       authorized: true,
@@ -7,20 +10,6 @@ defmodule Las.Party do
       currently_playing: []
       }
   end
-
-  # def new(players) do
-  #   players = Enum.map players, fn {name, info} ->
-  #     {name, %{ default_player() | matches: info.matches || 0 }}
-  #   end
-  #   Map.put(new(), :players, Enum.into(players, %{}))
-  # end
-
-  # def default_player() do
-  #   %{
-  #     matches: 0, # of tiles matched
-  #     turn: -1, # 1 is there turn and -1 mean they are a watcher
-  #   }
-  # end
 
   def client_view(game, user) do
     %{
@@ -33,9 +22,12 @@ defmodule Las.Party do
 
   def add_user(game, user) do
     users = game.users ++ [user]
+    login_user = Las.Users.get_user!(user)
+    recently_played = Song.recently_played(login_user.token).songs
+    songs = game.song_queue ++ [recently_played]
     game
     |> Map.put(:users, users)
+    |> Map.put(:song_queue, songs)
   end
-
 
 end
