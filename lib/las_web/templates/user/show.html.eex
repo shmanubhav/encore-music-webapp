@@ -1,38 +1,49 @@
-<div class="container">
-  <div class="row">
-    <div class="col mt-5">
-      <h1 class="text-center">Your Profile</h1>
-    </div>
-  </div>
-  <div class="row mt-4">
-    <div class="col-6 card">
-      <div>
-        <strong>Email:</strong>
-        <%= @user.email %>
-      </div>
-
-      <div>
-        <strong>First name:</strong>
-        <%= @user.first_name %>
-      </div>
-
-      <div>
-        <strong>Last name:</strong>
-        <%= @user.last_name %>
+<%= if @current_user == nil do %>
+  <div class="container">
+    <div class="row">
+      <div class="col mt-5">
+        <h1 class="text-center">Authenticate with Spotify to continue.</h1>
+        <a class="btn btn-pink" href="/">Go to Login Page</a>
       </div>
     </div>
+  </div>
+<% else %>
+  <div class="container">
+    <div class="row">
+      <div class="col mt-5">
+        <h1 class="text-center">Your Profile</h1>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-6 card">
+        <div>
+          <strong>Email:</strong>
+          <%= @user.email %>
+        </div>
 
-    <div class="col-6 card">
-      <div><strong>Spotify Name:</strong> <%= @current_user.name %> </div>
-      <div><strong>Followers:</strong> <%= @current_user.followers %> </div>
-      <div><a target="_blank" href=<%= @current_user.spotify_url %>>Link to Spotify Profile</a></div>
+        <div>
+          <strong>First name:</strong>
+          <%= @user.first_name %>
+        </div>
+
+        <div>
+          <strong>Last name:</strong>
+          <%= @user.last_name %>
+        </div>
+      </div>
+
+      <div class="col-6 card">
+        <div><strong>Spotify Name:</strong> <%= @current_user.name %> </div>
+        <div><strong>Followers:</strong> <%= @current_user.followers %> </div>
+        <div><a target="_blank" href=<%= @current_user.spotify_url %>>Link to   Spotify Profile</a></div>
+      </div>
+
+    </div>
+
+    <div class="row mt-5">
+      <span><%= link "Back", to: Routes.page_path(@conn, :index), class: "btn   btn-pink mr-3" %></span>
+      <span><%= link "Edit", to: Routes.user_path(@conn, :edit, @user), class:  "btn btn-secondary" %></span>
     </div>
 
   </div>
-
-  <div class="row mt-5">
-    <span><%= link "Back", to: Routes.page_path(@conn, :index), class: "btn btn-pink mr-3" %></span>
-    <span><%= link "Edit", to: Routes.user_path(@conn, :edit, @user), class: "btn btn-secondary" %></span>
-  </div>
-
-</div>
+<% end %>
