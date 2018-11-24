@@ -89,15 +89,26 @@ defmodule LasWeb.PageController do
     # Check if user belongs to this room.
     in_room = RoomUsers.room_contains_user(user.id, room.id)
 
-    if in_room do
-      conn
-      |> put_session(:party_name, party_name)
-      |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user, party_id: room.id)
+    # Check if user is owner of this room.
+    owner = Rooms.is_owner(user.id, party_name)
+
+    if in_room != nil or owner != nil do
+      if !in_room do # if you are the owner of the room
+        case RoomUsers.create_room_user(%{room_id: room.id, user_id: user.id}) do
+          {:ok, roomuser} ->
+            conn
+            |> put_session(:party_name, party_name)
+            |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user, party_id: room.id)
+          end
+      else
+        conn
+        |> put_session(:party_name, party_name)
+        |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user, party_id: room.id)
+      end
     else
     conn
       |> put_flash(:error, "Denied joining Party Room.")
       |> redirect(to: "/")
-
     end
   end
 end
