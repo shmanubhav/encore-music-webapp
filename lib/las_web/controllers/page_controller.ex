@@ -65,14 +65,21 @@ defmodule LasWeb.PageController do
     user = get_session(conn, :current_login_user)
     spotify_user = get_session(conn, :current_user)
     room = Rooms.get_room(party_name)
-    #TODO: check if entry is already in the room user table
-    case RoomUsers.create_room_user(%{room_id: room.id, user_id: user.id}) do
-      {:ok, roomuser} ->
-        conn
-        |> put_session(:party_name, party_name)
-        |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user)
-      {:error, %Ecto.Changeset{} = changeset} ->
-          render(conn, "/", changeset: changeset)
+    in_room = RoomUsers.check_user(user.id, room.id)
+    IO.inspect(in_room)
+    if length(in_room) != 0 do
+      conn
+      |> put_session(:party_name, party_name)
+      |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user)
+    else
+      case RoomUsers.create_room_user(%{room_id: room.id, user_id: user.id}) do
+        {:ok, roomuser} ->
+          conn
+          |> put_session(:party_name, party_name)
+          |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user)
+        {:error, %Ecto.Changeset{} = changeset} ->
+            render(conn, "/", changeset: changeset)
+      end
     end
   end
 end
