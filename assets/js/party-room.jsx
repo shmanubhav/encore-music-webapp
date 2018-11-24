@@ -89,7 +89,6 @@ class Party extends React.Component {
       )
     }
     else {
-      alert(this.state.authorized)
       return (
         <div>
           <p>

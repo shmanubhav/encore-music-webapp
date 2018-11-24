@@ -4,7 +4,7 @@
     </div>
     <div class="row mt-3">
       <div class="col-4">
-        <%= form_for @conn, "/join", [as: :join, class: "form-inline"], fn f -> %>
+        <%= form_for @conn, "/enter", [as: :enter, class: "form-inline"], fn f -> %>
           <p><%= text_input f, :party_name, placeholder: "Party Name" %></p>
           <p><%= submit "Join Party", class: "btn btn-primary"%></p>
         <% end %>

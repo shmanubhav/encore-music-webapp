@@ -17,12 +17,11 @@ defmodule LasWeb.RoomController do
   def create(conn, %{"room" => room_params}) do
     user = get_session(conn, :current_login_user)
     room_params = Map.put(room_params, "user_id", user.id)
-    IO.inspect(room_params)
     case Rooms.create_room(room_params) do
       {:ok, room} ->
         conn
         |> put_flash(:info, "Room created successfully.")
-        |> redirect(to: Routes.room_path(conn, :show, room))
+        |> redirect(to: Routes.page_path(conn, :party, room_params["name"]))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

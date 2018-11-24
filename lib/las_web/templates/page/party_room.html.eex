@@ -7,7 +7,6 @@
   <div class="column">
     <h1>Party Room: <%= @party_name %></h1>
     <div id="root">
-      <p>React component loading...</p>
     </div>
   </div>
 </div>
