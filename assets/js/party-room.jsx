@@ -151,25 +151,26 @@ class Party extends React.Component {
       // });
     // };
 
-    // if (this.state.authorized) {
+    if (this.state.authorized) {
       return (
         <div>
           <p>
             User Entered the Party Room!!!
         </p>
 
+
         </div>
       )
-    // }
-    // else {
-    //   return (
-    //     <div>
-    //       <p>
-    //         YOU ARE NOT AUTHORIZED TO JOIN THIS PARTY
-    //       </p>
-    //     </div>
-    //   )
-    // };
+    }
+    else {
+      return (
+        <div>
+          <p>
+            YOU ARE NOT AUTHORIZED TO JOIN THIS PARTY
+          </p>
+        </div>
+      )
+    };
   }
 }
 
