@@ -21,19 +21,13 @@ defmodule Las.Party do
   end
 
   def add_user(game, user) do
-    IO.puts("Got into ADD USER")
+    users = game.users ++ [user]
     login_user = Las.Users.get_user!(user)
-    IO.inspect(login_user)
-    users = game.users ++ [login_user]
-    IO.inspect(users)
     recently_played = Song.recently_played(login_user.token).songs
     songs = game.song_queue ++ [recently_played]
-    IO.inspect(songs)
-    Map.put(game, :users, users)
-    Map.put(game, :song_queue, songs)
     game
+    |> Map.put(:users, users)
+    |> Map.put(:song_queue, songs)
   end
-
-
 
 end
