@@ -42,12 +42,13 @@ const scopes = [
 
 // Play a specified track on the Web Playback SDK's device ID
 function play(device_id) {
+  console.log("here");
   $.ajax({
    url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id,
    type: "PUT",
    data: '{"uris": ["spotify:track:3JrMXGfyYUlBNKrHe99Csy"]}',
    beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + _token );},
-   success: function(data) { 
+   success: function(data) {
      console.log(data)
    }
   });
@@ -76,80 +77,47 @@ class Party extends React.Component {
     console.log(view)
   }
 
+onPauseClick() {
+  this.player.pause().then(() => {
+    console.log('Paused!');
+  });
+}
+
+onPlayClick() {
+
+}
+
   render() {
 
     window.onSpotifyPlayerAPIReady = () => {
-      const player = new Spotify.Player({
+      this.player = new Spotify.Player({
         name: 'LAS Spotify Player',
         getOAuthToken: cb => { cb(_token); }
       });
-    
+
       // Error handling
-      player.on('initialization_error', e => console.error(e));
-      player.on('authentication_error', e => console.error(e));
-      player.on('account_error', e => console.error(e));
-      player.on('playback_error', e => console.error(e));
-    
+      this.player.on('initialization_error', e => console.error(e));
+      this.player.on('authentication_error', e => console.error(e));
+      this.player.on('account_error', e => console.error(e));
+      this.player.on('playback_error', e => console.error(e));
+
       // Playback status updates
-      player.on('player_state_changed', state => {
+      this.player.on('player_state_changed', state => {
         console.log(state)
         $('#current-track').attr('src',     state.track_window.current_track.album.images[0].url);
         $('#current-track-name').text(state.track_window.current_track.name);
       });
-    
+
       // Ready
-      player.on('ready', data => {
+      this.player.on('ready', data => {
         console.log('Ready with Device ID', data.device_id);
 
         // Play a track using our new device ID
         play(data.device_id);
       });
-    
-      // Connect to the player!
-      player.connect();
+    // Connect to the player!
+      this.player.connect();
     }
-      // window.onSpotifyWebPlaybackSDKReady = () => {
-        // You can now initialize Spotify.Player and use the SDK
-        // console.log("here2");
-        // const token = window.token;
-        // const player = new Spotify.Player({
-        //   name: 'LAS Spotify Player',
-        //   getOAuthToken: cb => { cb(token); }
-        // });
-        // // Error handling
-        // player.addListener('initialization_error', ({ message }) => {  console.error(message); });
-        // player.addListener('authentication_error', ({ message }) => {  console.error(message); });
-        // player.addListener('account_error', ({ message }) => { console.error (message); });
-        // player.addListener('playback_error', ({ message }) => { console.error  (message); });
-        // // Playback status updates
-        // player.addListener('player_state_changed', state => { console.log  (state); });
-        // // Ready
-        // player.addListener('ready', ({ device_id }) => {
-        //   console.log('Ready with Device ID', device_id);
-        // });
-        // // Not Ready
-        // player.addListener('not_ready', ({ device_id }) => {
-        //   console.log('Device ID has gone offline', device_id);
-        // });
-      // // Connect to the player!
-      // player.connect();
-      // var player = new Spotify.Player({
-      //   name: 'Spotify Player',
-      //   getOAuthToken: callback => {
-      //     // Run code to get a fresh access token
-      //     callback(window.userToken);
-      //   },
-      //   volume: 0.5
-      //   });
-      // // player.addListener('ready', ({ device_id }) => {
-      // //   console.log('Connected with Device ID', device_id);
-      // // });
-      // player.connect().then(success => {
-      //   if (success) {
-      //     console.log('The Web Playback SDK successfully connected to Spotify!');
-      //   }
-      // });
-    // };
 
     if (this.state.authorized) {
       return (
@@ -158,7 +126,7 @@ class Party extends React.Component {
             User Entered the Party Room!!!
         </p>
 
-
+        <button onClick={() => this.onPauseClick()}>"Pause"</button>
         </div>
       )
     }
@@ -173,7 +141,3 @@ class Party extends React.Component {
     };
   }
 }
-
-
-
-
