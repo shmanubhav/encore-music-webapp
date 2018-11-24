@@ -4,7 +4,7 @@ defmodule Las.RoomSongs do
 
   alias Las.RoomSongs.RoomSong
 
-  def create_room_user(attrs \\ %{}) do
+  def create_room_song(attrs \\ %{}) do
     %RoomSong{}
     |> RoomSong.changeset(attrs)
     |> Repo.insert()

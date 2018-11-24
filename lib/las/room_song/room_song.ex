@@ -1,4 +1,4 @@
-defmodule Las.RoomSongs.RoomSongs do
+defmodule Las.RoomSongs.RoomSong do
   use Ecto.Schema
   import Ecto.Changeset
 
