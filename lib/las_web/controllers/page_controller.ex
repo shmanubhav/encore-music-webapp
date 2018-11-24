@@ -41,19 +41,16 @@ defmodule LasWeb.PageController do
   end
 
   def join(conn, %{"join" => %{"party_name" => party_name, "party_code" => party_code}}) do
-    IO.inspect("Got here")
     # check that the fields are filled out.
     if party_name == "" or party_code == "" do
       conn
       |> put_flash(:error, "Please Enter a Party Room and Code")
       |> redirect(to: "/enter")
     end
-    IO.inspect("Got here 2")
 
     user = get_session(conn, :current_login_user)
     # Validate that the code is correct.
     room = Rooms.validate_code(party_name, party_code)
-    IO.inspect("Got here 3")
     if room do
       roomuser = RoomUsers.room_contains_user(user.id, room.id)
       # If user gave the right code and they aren't part of the group, add them and proceed
@@ -96,7 +93,6 @@ defmodule LasWeb.PageController do
       conn
       |> put_session(:party_name, party_name)
       |> render("party_room.html", party_name: party_name , user: user, spotify_user: spotify_user, party_id: room.id)
-      #render conn, "party_room.html", party_name: party_name, party_id: room.id, user: user, spotify_user: spotify_user
     else
     conn
       |> put_flash(:error, "Denied joining Party Room.")
