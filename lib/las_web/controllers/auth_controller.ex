@@ -33,6 +33,7 @@ defmodule LasWeb.AuthController do
     # Request the user's data with the access token
     # This means we can get back their data
     user = get_user!(provider, client)
+    songs = get_recently_played!(provider, client)
     # TODO implement
 
     #User.insert_or_update(user)
@@ -49,6 +50,7 @@ defmodule LasWeb.AuthController do
     conn
     |> put_session(:current_user, user)
     |> put_session(:access_token, client.token.access_token)
+    |> put_session(:recently_played, songs)
     # TODO: Possibly fix this
     |> redirect(to: "/explore")
   end
@@ -78,6 +80,12 @@ defmodule LasWeb.AuthController do
   defp get_user!("spotify", client) do
     %{body: user} = OAuth2.Client.get!(client, "/v1/me")
     %{name: user["display_name"], spotify_url: user["external_urls"]["spotify"], token: client.token.access_token, followers: user["followers"]["total"]}
+  end
+
+  defp get_recently_played!("spotify", client) do
+    %{body: songs} = OAuth2.Client.get!(client, "/v1/me/player/recently-played?limit=10")
+    %{songs: Enum.map(songs["items"], fn x -> %{title: x["track"]["name"], artists: Enum.map(x["track"]["artists"],
+    fn y-> %{name: y["name"]} end)} end)}
   end
 
 end

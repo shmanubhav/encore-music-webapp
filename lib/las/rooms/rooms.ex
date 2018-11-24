@@ -37,6 +37,11 @@ defmodule Las.Rooms do
   """
   def get_room!(id), do: Repo.get!(Room, id)
 
+  def get_room(room_name) do
+    Repo.one from r in Room,
+      where: r.name == ^room_name
+  end
+
   @doc """
   Creates a room.
 
@@ -57,8 +62,7 @@ defmodule Las.Rooms do
 
   def validate_code(room_name, code) do
     Repo.one from r in Room,
-      where: r.name == ^room_name and r.code == ^code,
-      preload: [:user, :song]
+      where: r.name == ^room_name and r.code == ^code
   end
 
   @doc """

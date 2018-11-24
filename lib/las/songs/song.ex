@@ -6,7 +6,6 @@ defmodule Las.Songs.Song do
     field :author, :string
     field :playing, :boolean, default: false
     field :title, :string
-    belongs_to :room, Las.Rooms.Room
 
     timestamps()
   end
