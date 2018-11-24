@@ -26,7 +26,7 @@ defmodule Las.PartyServer do
 
   def handle_call({:view, game, user}, _from, state) do
     gg = Map.get(state, game, Party.new)
-    IO.inspect(gg)
+    # IO.inspect(gg)
     {:reply, Party.client_view(gg, user), Map.put(state, game, gg)}
   end
 
