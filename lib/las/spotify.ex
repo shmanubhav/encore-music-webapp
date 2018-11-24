@@ -15,7 +15,11 @@ defmodule Spotify do
     ])
   end
 
-  # TODO: Define what scopes we want. 
+  def client(token) do
+    %{client() | token: OAuth2.AccessToken.new(token) }
+  end
+
+  # TODO: Define what scopes we want.
   def authorize_url! do
     OAuth2.Client.authorize_url!(client(), scope: "playlist-modify-public user-modify-playback-state user-read-recently-played streaming user-read-birthdate user-read-email user-read-private")
   end
