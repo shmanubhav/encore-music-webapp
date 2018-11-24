@@ -14,4 +14,10 @@ defmodule Las.RoomUsers do
     room_users = Repo.all(RoomUser)
     Enum.filter(room_users, fn ru -> ru.user_id == user_id end)
   end
+
+  # check if the user is already in the room
+  def check_user(user_id, room_id) do
+    room_users = Repo.all(RoomUser)
+    Enum.filter(room_users, fn ru -> ru.user_id == user_id && ru.room_id == room_id end)
+  end
 end
