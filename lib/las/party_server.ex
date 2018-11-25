@@ -15,6 +15,10 @@ defmodule Las.PartyServer do
     GenServer.call(__MODULE__, {:view, game, user})
   end
 
+  def set_party_name(game, user) do
+    GenServer.call(__MODULE__, {:set_party_name, game, user})
+  end
+
   def add_user(game, user) do
     GenServer.call(__MODULE__, {:new_user, game, user})
   end
@@ -26,14 +30,21 @@ defmodule Las.PartyServer do
 
   def handle_call({:view, game, user}, _from, state) do
     gg = Map.get(state, game, Party.new)
-    IO.inspect(gg)
     {:reply, Party.client_view(gg, user), Map.put(state, game, gg)}
   end
+
+  def handle_call({:set_party_name, game, user}, _from, state) do
+    gg = Map.get(state, game, Party.new)
+    |> Party.set_party_name(game)
+    {:reply, Party.client_view(gg, user), Map.put(state, game, gg)}
+  end
+
 
   def handle_call({:new_user, game, user}, _from, state) do
     gg = Map.get(state, game, Party.new)
     |> Party.add_user(user)
     vv = Party.client_view(gg, user)
+
     LasWeb.Endpoint.broadcast("games:" <> game, "change_view", vv)
     {:reply, vv, Map.put(state, game, gg)}
 

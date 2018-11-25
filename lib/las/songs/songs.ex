@@ -37,6 +37,11 @@ defmodule Las.Songs do
   """
   def get_song!(id), do: Repo.get!(Song, id)
 
+  def get_song_uri(uri) do
+    Repo.one from s in Song,
+      where: s.uri == ^uri
+  end
+
   @doc """
   Creates a song.
 
