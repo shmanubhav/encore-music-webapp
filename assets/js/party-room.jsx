@@ -135,6 +135,7 @@ onNextClick() {
         console.log('The Web Playback SDK is ready to play music!');
         console.log('Device ID', device_id);
       });
+      // Connect to the player!
       console.log(this.player);
       // Ready
       this.player.on('ready', data => {
@@ -142,31 +143,39 @@ onNextClick() {
         // Play a track using our new device ID
         this.play(data.device_id);
       });
-
-    // Connect to the player!
     }
-
-
     if (this.state.authorized) {
       return (
-        <div>
-          <p>
-            Current Song: {this.state.currently_playing[0]}
-        </p>
-        <img src={this.state.currently_playing[1]}/>
-        <button onClick={() => this.onBackClick()}>Previous</button>
-        <button onClick={() => this.onPauseClick()}>{this.state.playing ? "Pause" : "Play"}</button>
-        <button onClick={() => this.onNextClick()}>Next</button>
+        <div className="row">
+          <div className="col-1"></div>
+          <div className="col-4">
+            <h4 className="mt-3">Song Queue</h4>
+            <div className="queue">
+              <div>
+                {this.state.song_queue.map((s) => <div className="card song-background"><strong class="party-song">{s.title}</strong></div>)}
+              </div>
+            </div>
+          </div>
+          <div className="col-1"></div>
+          <div className="col-6">
+            <p className="mt-3" id="current-song">
+              <strong>Currently Playing: </strong>{this.state.currently_playing[0]}
+            </p>
+            <img className="card login-page" src={this.state.currently_playing[1]}/>
+            <div className="mt-3" id="all-controls">
+              <div id="controls">
+                <button className="mx-2" onClick={() => this.onBackClick()}><i className="fa fa-backward"/></button>
+                <button className="mx-2" onClick={() => this.onPauseClick()}>{this.state.playing ? <i class="fa fa-pause"/> : <i class="fa fa-play"/>}</button>
+                <button className="mx-2" onClick={() => this.onNextClick()}><i className="fa fa-forward"/></button>
+              </div>
+            </div>
+          </div>
         </div>
       )
     }
     else {
       return (
-        <div>
-          <p>
-            YOU ARE NOT AUTHORIZED TO JOIN THIS PARTY
-          </p>
-        </div>
+        <div></div>
       )
     };
   }
