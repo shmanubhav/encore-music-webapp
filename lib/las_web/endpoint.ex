@@ -39,6 +39,7 @@ defmodule LasWeb.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
+    max_age: 3600, # Set the session to be 1 hour.
     key: "_las_key",
     signing_salt: "MVks34W5"
 
