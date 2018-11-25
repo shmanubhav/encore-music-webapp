@@ -10,6 +10,7 @@ defmodule Las.Repo.Migrations.CreateSongs do
 
       timestamps()
     end
+    create index(:songs, [:uri], unique: true)
 
   end
 end

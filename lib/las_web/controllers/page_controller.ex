@@ -25,7 +25,7 @@ defmodule LasWeb.PageController do
   end
 
   def enter(conn, %{"enter" => %{"party_name" => party_name}}) do
-    room = Rooms.get_room(party_name)
+    room = Rooms.get_room_by_name(party_name)
     user = get_session(conn, :current_login_user)
     cond do
       room && (user.id == room.user_id) ->
@@ -78,7 +78,7 @@ defmodule LasWeb.PageController do
   def party(conn, %{"party" => party_name}) do
     user = get_session(conn, :current_login_user)
     spotify_user = get_session(conn, :current_user)
-    room = Rooms.get_room(party_name)
+    room = Rooms.get_room_by_name(party_name)
 
     if !room do
       conn

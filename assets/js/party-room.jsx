@@ -63,7 +63,8 @@ class Party extends React.Component {
       users: [],
       song_queue: [],
       currently_playing: [],
-      playing: true // is the current song playing
+      playing: true, // is the current song playing
+      party_name: ""
     }
 
     this.channel.join()
@@ -72,8 +73,6 @@ class Party extends React.Component {
   }
 
   gotView(view) {
-    console.log("we joined the channel!!")
-    console.log(view)
     console.log(view.view)
     this.setState(view.view);
   }
