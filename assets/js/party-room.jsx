@@ -41,18 +41,18 @@ const scopes = [
 
 
 // Play a specified track on the Web Playback SDK's device ID
-function play(device_id) {
-  console.log("here");
-  $.ajax({
-   url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id,
-   type: "PUT",
-   data: '{"uris": ["spotify:track:5xTtaWoae3wi06K5WfVUUH"]}',
-   beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + _token );},
-   success: function(data) {
-     console.log(data)
-   }
-  });
-}
+// function play(device_id) {
+//   console.log("here");
+//   $.ajax({
+//    url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id,
+//    type: "PUT",
+//    data: '{"uris": ["spotify:track:5xTtaWoae3wi06K5WfVUUH"]}',
+//    beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + _token );},
+//    success: function(data) {
+//      console.log(data)
+//    }
+//   });
+// }
 
 class Party extends React.Component {
   constructor(props) {
@@ -77,6 +77,24 @@ class Party extends React.Component {
     console.log(view.view)
     this.setState(view.view);
   }
+
+play(device_id) {
+  var uris = this.state.song_queue.map(function(song) {
+    return song.uri
+  });
+  const uri_object = {"uris": uris}
+  console.log(uris);
+  console.log("here");
+  $.ajax({
+   url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id,
+   type: "PUT",
+   data: JSON.stringify(uri_object),
+   beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + _token );},
+   success: function(data) {
+     console.log(data)
+   }
+  });
+}
 
 onPauseClick() {
   this.player.togglePlay().then(() => {
@@ -122,7 +140,7 @@ onNextClick() {
       this.player.on('ready', data => {
         console.log('Ready with Device ID', data.device_id);
         // Play a track using our new device ID
-        play(data.device_id);
+        this.play(data.device_id);
       });
 
     // Connect to the player!
