@@ -2,7 +2,7 @@
     <%= if @current_login_user do %>
       <h1>LAS</h1>
       <a class="btn btn-primary btn-lg" href="<%= Routes.auth_path(@conn, :index, "spotify") %>">
-        <i class="fa fa-google"></i>
+        <i class="fa fa-spotify"></i>
         Sign in with Spotify
       </a>
     <% else %>
