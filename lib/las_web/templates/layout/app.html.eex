@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>LAS App · Phoenix Framework</title>
     <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
       <script>
         window.userToken = "<%= @user_token %>";

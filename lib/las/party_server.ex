@@ -23,6 +23,14 @@ defmodule Las.PartyServer do
     GenServer.call(__MODULE__, {:new_user, game, user})
   end
 
+  def toggle(game, user) do
+    GenServer.call(__MODULE__, {:toggle, game, user})
+  end
+
+  def current_song(game, user, song, image) do
+    GenServer.call(__MODULE__, {:current_song, game, user, song, image})
+  end
+
   #IMPLEMENTATION
   def init(args) do
     {:ok, args}
@@ -39,15 +47,31 @@ defmodule Las.PartyServer do
     {:reply, Party.client_view(gg, user), Map.put(state, game, gg)}
   end
 
-
   def handle_call({:new_user, game, user}, _from, state) do
     gg = Map.get(state, game, Party.new)
     |> Party.add_user(user)
     vv = Party.client_view(gg, user)
 
-    LasWeb.Endpoint.broadcast("games:" <> game, "change_view", vv)
+    LasWeb.Endpoint.broadcast("Welcome! Party Room:" <> game, "change_view", vv)
     {:reply, vv, Map.put(state, game, gg)}
+  end
 
+  def handle_call({:toggle, game, user}, _from, state) do
+    gg = Map.get(state, game, Party.new)
+    |> Party.toggle_playing()
+    vv = Party.client_view(gg, user)
+
+    LasWeb.Endpoint.broadcast("Welcome! Party Room:" <> game, "change_view", vv)
+    {:reply, vv, Map.put(state, game, gg)}
+  end
+
+  def handle_call({:current_song, game, user, song, image}, _from, state) do
+    gg = Map.get(state, game, Party.new)
+    |> Party.current_song(song, image)
+    vv = Party.client_view(gg, user)
+
+    LasWeb.Endpoint.broadcast("Welcome! Party Room:" <> game, "change_view", vv)
+    {:reply, vv, Map.put(state, game, gg)}
   end
 
 end

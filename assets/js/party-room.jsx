@@ -38,22 +38,6 @@ const scopes = [
   'user-modify-playback-state'
 ];
 
-
-
-// Play a specified track on the Web Playback SDK's device ID
-// function play(device_id) {
-//   console.log("here");
-//   $.ajax({
-//    url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id,
-//    type: "PUT",
-//    data: '{"uris": ["spotify:track:5xTtaWoae3wi06K5WfVUUH"]}',
-//    beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + _token );},
-//    success: function(data) {
-//      console.log(data)
-//    }
-//   });
-// }
-
 class Party extends React.Component {
   constructor(props) {
     super(props);
@@ -70,6 +54,13 @@ class Party extends React.Component {
     this.channel.join()
       .receive("ok", this.gotView.bind(this))
       .receive("error", resp => { console.log("Unable to join", resp) });
+
+    this.channel.on("change_view", (state) => {
+       if (state !== undefined) {
+           console.log(state)
+           this.setState(state);
+       }
+    });
   }
 
   gotView(view) {
@@ -82,7 +73,6 @@ play(device_id) {
     return song.uri
   });
   const uri_object = {"uris": uris}
-  console.log(uris);
   console.log("here");
   $.ajax({
    url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id,
@@ -96,16 +86,24 @@ play(device_id) {
 }
 
 onPauseClick() {
-  this.player.togglePlay().then(() => {
-    console.log('Paused!');
-  });
+  this.channel.push("toggle", {})
+    .receive("ok", this.gotView.bind(this));
+  this.player.togglePlay();
 }
 
 onBackClick() {
+  if (!this.state.playing) {
+    this.channel.push("toggle", {})
+      .receive("ok", this.gotView.bind(this));
+  }
   this.player.previousTrack();
 }
 
 onNextClick() {
+  if (!this.state.playing) {
+    this.channel.push("toggle", {})
+      .receive("ok", this.gotView.bind(this));
+  }
   this.player.nextTrack();
 }
 
@@ -126,6 +124,9 @@ onNextClick() {
       // Playback status updates
       this.player.on('player_state_changed', state => {
         console.log(state)
+        this.channel.push("current_song", { track: state.track_window.current_track.name,
+        image: state.track_window.current_track.album.images[0].url})
+          .receive("ok", this.gotView.bind(this));
         $('#current-track').attr('src',     state.track_window.current_track.album.images[0].url);
         $('#current-track-name').text(state.track_window.current_track.name);
       });
@@ -134,6 +135,7 @@ onNextClick() {
         console.log('The Web Playback SDK is ready to play music!');
         console.log('Device ID', device_id);
       });
+      // Connect to the player!
       console.log(this.player);
       // Ready
       this.player.on('ready', data => {
@@ -141,30 +143,39 @@ onNextClick() {
         // Play a track using our new device ID
         this.play(data.device_id);
       });
-
-    // Connect to the player!
     }
-
-
     if (this.state.authorized) {
       return (
-        <div>
-          <p>
-            User Entered the Party Room!!!
-        </p>
-        <button onClick={() => this.onBackClick()}>Previous</button>
-        <button onClick={() => this.onPauseClick()}>{this.playing ? "Pause" : "Play"}</button>
-        <button onClick={() => this.onNextClick()}>Next</button>
+        <div className="row">
+          <div className="col-1"></div>
+          <div className="col-4">
+            <h4 className="mt-3">Song Queue</h4>
+            <div className="queue">
+              <div>
+                {this.state.song_queue.map((s) => <div className="card song-background"><strong class="party-song">{s.title}</strong></div>)}
+              </div>
+            </div>
+          </div>
+          <div className="col-1"></div>
+          <div className="col-6">
+            <p className="mt-3" id="current-song">
+              <strong>Currently Playing: </strong>{this.state.currently_playing[0]}
+            </p>
+            <img className="card login-page" src={this.state.currently_playing[1]}/>
+            <div className="mt-3" id="all-controls">
+              <div id="controls">
+                <button className="mx-2" onClick={() => this.onBackClick()}><i className="fa fa-backward"/></button>
+                <button className="mx-2" onClick={() => this.onPauseClick()}>{this.state.playing ? <i class="fa fa-pause"/> : <i class="fa fa-play"/>}</button>
+                <button className="mx-2" onClick={() => this.onNextClick()}><i className="fa fa-forward"/></button>
+              </div>
+            </div>
+          </div>
         </div>
       )
     }
     else {
       return (
-        <div>
-          <p>
-            YOU ARE NOT AUTHORIZED TO JOIN THIS PARTY
-          </p>
-        </div>
+        <div></div>
       )
     };
   }
