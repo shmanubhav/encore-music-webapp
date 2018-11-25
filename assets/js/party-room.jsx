@@ -38,22 +38,6 @@ const scopes = [
   'user-modify-playback-state'
 ];
 
-
-
-// Play a specified track on the Web Playback SDK's device ID
-// function play(device_id) {
-//   console.log("here");
-//   $.ajax({
-//    url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id,
-//    type: "PUT",
-//    data: '{"uris": ["spotify:track:5xTtaWoae3wi06K5WfVUUH"]}',
-//    beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + _token );},
-//    success: function(data) {
-//      console.log(data)
-//    }
-//   });
-// }
-
 class Party extends React.Component {
   constructor(props) {
     super(props);
@@ -70,6 +54,13 @@ class Party extends React.Component {
     this.channel.join()
       .receive("ok", this.gotView.bind(this))
       .receive("error", resp => { console.log("Unable to join", resp) });
+
+    this.channel.on("change_view", (state) => {
+       if (state !== undefined) {
+           console.log(state)
+           this.setState(state);
+       }
+    });
   }
 
   gotView(view) {
@@ -82,7 +73,6 @@ play(device_id) {
     return song.uri
   });
   const uri_object = {"uris": uris}
-  console.log(uris);
   console.log("here");
   $.ajax({
    url: "https://api.spotify.com/v1/me/player/play?device_id=" + device_id,
@@ -96,9 +86,9 @@ play(device_id) {
 }
 
 onPauseClick() {
-  this.player.togglePlay().then(() => {
-    console.log('Paused!');
-  });
+  this.channel.push("toggle", {})
+    .receive("ok", this.gotView.bind(this));
+  this.player.togglePlay();
 }
 
 onBackClick() {
@@ -153,7 +143,7 @@ onNextClick() {
             User Entered the Party Room!!!
         </p>
         <button onClick={() => this.onBackClick()}>Previous</button>
-        <button onClick={() => this.onPauseClick()}>{this.playing ? "Pause" : "Play"}</button>
+        <button onClick={() => this.onPauseClick()}>{this.state.playing ? "Pause" : "Play"}</button>
         <button onClick={() => this.onNextClick()}>Next</button>
         </div>
       )

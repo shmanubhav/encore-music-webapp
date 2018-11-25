@@ -17,7 +17,6 @@
                 <p class="text-center"><strong><%= room.name %></strong></p>
                 <p class="text-center"><strong>Host: </strong><%= room.user.first_name %></p>
                 <%= link("View", to: Routes.page_path(@conn, :party, room.name), class: "inline btn btn-pink ml-3 mb-3") %>
-
               </div>
             <% end %>
           </div>

@@ -19,6 +19,12 @@ defmodule LasWeb.GamesChannel do
       end
     end
 
+  def handle_in("toggle", %{}, socket) do
+    view = PartyServer.toggle(socket.assigns[:game], socket.assigns[:user])
+    broadcast(socket, "change_view", view)
+    {:reply, {:ok, %{ "view" => view}}, socket}
+  end
+
     # Add other actions here
 
   # It is also common to receive messages from the client and

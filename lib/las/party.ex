@@ -7,7 +7,8 @@ defmodule Las.Party do
       authorized: true,
       users: [],
       song_queue: [],
-      currently_playing: []
+      currently_playing: [],
+      playing: true,
       }
   end
 
@@ -17,6 +18,7 @@ defmodule Las.Party do
       users: game.users,
       song_queue: List.flatten(game.song_queue),
       currently_playing: game.currently_playing,
+      playing: game.playing,
       party_name: ""
     }
   end
@@ -24,6 +26,16 @@ defmodule Las.Party do
   def set_party_name(game, name) do
     game
     |> Map.put(:party_name, name)
+  end
+
+  def toggle_playing(game) do
+    if game.playing do
+      game
+      |> Map.put(:playing, false)
+    else
+      game
+      |> Map.put(:playing, true)
+    end
   end
 
   def add_user(game, user) do
