@@ -43,7 +43,9 @@ defmodule Las.Rooms do
   end
 
   def get_room_id(id) do
-    Repo.get!(Room, id)
+    Repo.one from r in Room,
+    where: r.id == ^id,
+    preload: [:user]
   end
 
   # get all rooms that a user is the owner of

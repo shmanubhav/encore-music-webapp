@@ -1,6 +1,6 @@
 <script>
- window.gameName = "<%= @party_name %>";
- window.user_id = "<%= @user.id %>";
+  window.gameName = "<%= @party_name %>";
+  window.user_id = "<%= @user.id %>";
   window.room_id = "<%= @party_id %>";
 </script>
 
