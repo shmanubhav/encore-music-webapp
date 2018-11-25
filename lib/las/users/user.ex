@@ -5,7 +5,7 @@ defmodule Las.Users.User do
 
   schema "users" do
     field :admin, :boolean, default: false
-    field :email, :string
+    field :email, :string, null: false
     field :first_name, :string
     field :last_name, :string
     field :password_hash, :string

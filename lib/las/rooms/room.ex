@@ -3,8 +3,8 @@ defmodule Las.Rooms.Room do
   import Ecto.Changeset
 
   schema "rooms" do
-    field :code, :integer
-    field :name, :string
+    field :code, :integer, null: false
+    field :name, :string, null: false
     belongs_to :user, Las.Users.User
 
     timestamps()
