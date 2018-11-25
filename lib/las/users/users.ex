@@ -82,9 +82,6 @@ defmodule Las.Users do
 
   """
   def update_user(%User{} = user, attrs) do
-    IO.inspect(attrs)
-    IO.inspect(user)
-    IO.puts("WE GOT INTO UPDATE USER")
     user
     |> User.changeset(attrs)
     |> Repo.update()

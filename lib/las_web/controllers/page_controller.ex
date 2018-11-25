@@ -17,11 +17,22 @@ defmodule LasWeb.PageController do
 
   def explore(conn, _params) do
     access_token = get_session(conn, :access_token)
-    recently_played = Song.recently_played(access_token).songs
-    user = get_session(conn, :current_login_user)
-    room_ids = Enum.map(RoomUsers.get_rooms_for_user(user.id), fn ri -> ri.room_id end)
-    rooms = Enum.map(room_ids, fn ri -> Rooms.get_room_id(ri) end)
-    render(conn, "explore.html", recent_songs: recently_played, rooms: rooms)
+
+    case Song.recently_played(access_token) do
+      {:error, _msg} ->
+        conn
+        |> delete_session(:user_id)
+        |> delete_session(:current_login_user)
+        |> delete_session(:current_user)
+        |> put_flash(:info, "Session expired, please log in.")
+        |> redirect(to: Routes.page_path(conn, :index))
+      {:songs, songs } ->
+        recently_played = songs.songs
+          user = get_session(conn, :current_login_user)
+          room_ids = Enum.map(RoomUsers.get_rooms_for_user(user.id), fn ri -> ri.room_id end)
+          rooms = Enum.map(room_ids, fn ri -> Rooms.get_room_id(ri) end)
+          render(conn, "explore.html", recent_songs: recently_played, rooms: rooms)
+    end
   end
 
   def enter(conn, %{"enter" => %{"party_name" => party_name}}) do

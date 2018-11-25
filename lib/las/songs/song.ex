@@ -21,9 +21,15 @@ defmodule Las.Songs.Song do
 
   def recently_played(access_token) do
     client = Spotify.client(access_token)
-    %{body: songs} = OAuth2.Client.get!(client, "/v1/me/player/recently-played?limit=10")
-    # TODO add pic url: pic_url: x["track"]["album"]["images"]["url"]
-    %{songs: Enum.map(songs["items"], fn x -> %{title: x["track"]["name"], uri: x["track"]["uri"], artists: Enum.map(x["track"]["artists"],
-    fn y-> %{name: y["name"]} end)} end)}
+
+    case OAuth2.Client.get(client, "/v1/me/player/recently-played?limit=10") do
+      {:error, error} ->
+        {:error, "session expired"}
+      {:ok, response} ->
+        %{body: songs} = response
+        songs_list =  %{songs: Enum.map(songs["items"], fn x -> %{title: x["track"]["name"], uri: x["track"]["uri"], artists: Enum.map(x["track"]["artists"],
+        fn y-> %{name: y["name"]} end)} end)}
+        {:songs, songs_list}
+        end
   end
 end
