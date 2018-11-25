@@ -3,8 +3,8 @@ defmodule Las.Repo.Migrations.CreateRooms do
 
   def change do
     create table(:rooms) do
-      add :name, :string
-      add :code, :integer
+      add :name, :string, null: false
+      add :code, :integer, null: false
 
       timestamps()
     end

@@ -5,8 +5,8 @@ defmodule Las.Songs.Song do
   schema "songs" do
     field :author, :string
     field :playing, :boolean, default: false
-    field :title, :string
-    field :uri, :string
+    field :title, :string, null: false
+    field :uri, :string, null: false
 
     timestamps()
   end
@@ -15,7 +15,8 @@ defmodule Las.Songs.Song do
   def changeset(song, attrs) do
     song
     |> cast(attrs, [:title, :author, :playing, :uri])
-    |> validate_required([:title, :author, :playing, :uri])
+    |> unique_constraint(:uri)
+    |> validate_required([:title, :uri])
   end
 
   def recently_played(access_token) do
