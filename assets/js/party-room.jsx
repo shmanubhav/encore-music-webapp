@@ -92,10 +92,18 @@ onPauseClick() {
 }
 
 onBackClick() {
+  if (!this.state.playing) {
+    this.channel.push("toggle", {})
+      .receive("ok", this.gotView.bind(this));
+  }
   this.player.previousTrack();
 }
 
 onNextClick() {
+  if (!this.state.playing) {
+    this.channel.push("toggle", {})
+      .receive("ok", this.gotView.bind(this));
+  }
   this.player.nextTrack();
 }
 
@@ -116,6 +124,9 @@ onNextClick() {
       // Playback status updates
       this.player.on('player_state_changed', state => {
         console.log(state)
+        this.channel.push("current_song", { track: state.track_window.current_track.name,
+        image: state.track_window.current_track.album.images[0].url})
+          .receive("ok", this.gotView.bind(this));
         $('#current-track').attr('src',     state.track_window.current_track.album.images[0].url);
         $('#current-track-name').text(state.track_window.current_track.name);
       });
@@ -140,8 +151,9 @@ onNextClick() {
       return (
         <div>
           <p>
-            User Entered the Party Room!!!
+            Current Song: {this.state.currently_playing[0]}
         </p>
+        <img src={this.state.currently_playing[1]}/>
         <button onClick={() => this.onBackClick()}>Previous</button>
         <button onClick={() => this.onPauseClick()}>{this.state.playing ? "Pause" : "Play"}</button>
         <button onClick={() => this.onNextClick()}>Next</button>

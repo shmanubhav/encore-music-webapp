@@ -28,6 +28,12 @@ defmodule Las.Party do
     |> Map.put(:party_name, name)
   end
 
+  def current_song(game, song, image) do
+    currently_playing = [song, image]
+    game
+    |> Map.put(:currently_playing, currently_playing)
+  end
+
   def toggle_playing(game) do
     if game.playing do
       game

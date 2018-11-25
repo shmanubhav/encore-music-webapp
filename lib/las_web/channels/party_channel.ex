@@ -25,6 +25,12 @@ defmodule LasWeb.GamesChannel do
     {:reply, {:ok, %{ "view" => view}}, socket}
   end
 
+  def handle_in("current_song", %{"track" => s, "image" => i}, socket) do
+    view = PartyServer.current_song(socket.assigns[:game], socket.assigns[:user], s, i)
+    broadcast(socket, "change_view", view)
+    {:reply, {:ok, %{ "view" => view}}, socket}
+  end
+
     # Add other actions here
 
   # It is also common to receive messages from the client and
