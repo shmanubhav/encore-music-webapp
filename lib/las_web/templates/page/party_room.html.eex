@@ -9,7 +9,7 @@
 <div class="container">
    <div class="row">
     <div class="col">
-      <h1>Party Room: <%= @party_name %></h1>
+      <h2 id="party-title">Welcome to <%= @party_name %>, <%= @user.first_name %>!</h2>
       <div id="root">
       </div>
     </div>
