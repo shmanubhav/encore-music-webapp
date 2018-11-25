@@ -62,7 +62,8 @@ class Party extends React.Component {
       authorized: false,
       users: [],
       song_queue: [],
-      currently_playing: []
+      currently_playing: [],
+      playing: true // is the current song playing
     }
 
     this.channel.join()
@@ -83,8 +84,12 @@ onPauseClick() {
   });
 }
 
-onPlayClick() {
+onBackClick() {
+  this.player.previousTrack();
+}
 
+onNextClick() {
+  this.player.nextTrack();
 }
 
   render() {
@@ -130,8 +135,9 @@ onPlayClick() {
           <p>
             User Entered the Party Room!!!
         </p>
-
-        <button onClick={() => this.onPauseClick()}>"Pause"</button>
+        <button onClick={() => this.onBackClick()}>Previous</button>
+        <button onClick={() => this.onPauseClick()}>{this.playing ? "Pause" : "Play"}</button>
+        <button onClick={() => this.onNextClick()}>Next</button>
         </div>
       )
     }
