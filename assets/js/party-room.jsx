@@ -144,6 +144,7 @@ onNextClick() {
         this.play(data.device_id);
       });
     }
+    let count=0;
     if (this.state.authorized) {
       return (
         <div className="row">
@@ -152,7 +153,7 @@ onNextClick() {
             <h4 className="mt-3">Song Queue</h4>
             <div className="queue">
               <div>
-                {this.state.song_queue.map((s) => <div className="card song-background"><strong class="party-song">{s.title}</strong></div>)}
+                {this.state.song_queue.map((s) => <div className="card song-background" key={s.title+(count++).toString()}><strong className="party-song">{s.title}</strong></div>)}
               </div>
             </div>
           </div>
@@ -165,7 +166,7 @@ onNextClick() {
             <div className="mt-3" id="all-controls">
               <div id="controls">
                 <button className="mx-2" onClick={() => this.onBackClick()}><i className="fa fa-backward"/></button>
-                <button className="mx-2" onClick={() => this.onPauseClick()}>{this.state.playing ? <i class="fa fa-pause"/> : <i class="fa fa-play"/>}</button>
+                <button className="mx-2" onClick={() => this.onPauseClick()}>{this.state.playing ? <i className="fa fa-pause"/> : <i className="fa fa-play"/>}</button>
                 <button className="mx-2" onClick={() => this.onNextClick()}><i className="fa fa-forward"/></button>
               </div>
             </div>
