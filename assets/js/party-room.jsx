@@ -62,9 +62,10 @@ class Party extends React.Component {
       authorized: false,
       users: [],
       song_queue: [],
-      currently_playing: []
-    }
-
+      currently_playing: [],
+      player: nil
+    };
+    this.player = "";
     this.channel.join()
       .receive("ok", this.gotView.bind(this))
       .receive("error", resp => { console.log("Unable to join", resp) });
@@ -75,20 +76,6 @@ class Party extends React.Component {
     console.log(view)
     console.log(view.view)
     this.setState(view.view);
-  }
-
-onPauseClick() {
-  this.player.togglePlay().then(() => {
-    console.log('Paused!');
-  });
-}
-
-onPlayClick() {
-
-}
-
-  render() {
-
     window.onSpotifyPlayerAPIReady = () => {
       this.player = new Spotify.Player({
         name: 'LAS Spotify Player',
@@ -112,7 +99,9 @@ onPlayClick() {
         console.log('The Web Playback SDK is ready to play music!');
         console.log('Device ID', device_id);
       });
-      console.log(this.player);
+      console.log("player",this.player);
+      console.log("state", this.state);
+
       // Ready
       this.player.on('ready', data => {
         console.log('Ready with Device ID', data.device_id);
@@ -122,8 +111,19 @@ onPlayClick() {
 
     // Connect to the player!
     }
+  }
 
+  onPauseClick() {
+    this.player.togglePlay().then(() => {
+      console.log('Paused!');
+    });
+  }
 
+  onPlayClick() {
+
+  }
+
+  render() {
     if (this.state.authorized) {
       return (
         <div>
