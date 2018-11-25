@@ -66,6 +66,41 @@ class Party extends React.Component {
   gotView(view) {
     console.log(view.view)
     this.setState(view.view);
+    window.onSpotifyPlayerAPIReady = () => {
+      this.player = new Spotify.Player({
+        name: 'LAS Spotify Player',
+        getOAuthToken: cb => { cb(_token); }
+      });
+
+      // Error handling
+      this.player.on('initialization_error', e => console.error(e));
+      this.player.on('authentication_error', e => console.error(e));
+      this.player.on('account_error', e => console.error(e));
+      this.player.on('playback_error', e => console.error(e));
+
+      // Playback status updates
+      this.player.on('player_state_changed', state => {
+        console.log(state)
+        this.channel.push("current_song", { track: state.track_window.current_track.name,
+        image: state.track_window.current_track.album.images[0].url})
+          .receive("ok", this.gotView.bind(this));
+        $('#current-track').attr('src',     state.track_window.current_track.album.images[0].url);
+        $('#current-track-name').text(state.track_window.current_track.name);
+      });
+      this.player.connect();
+      this.player.addListener('ready', ({ device_id }) => {
+        console.log('The Web Playback SDK is ready to play music!');
+        console.log('Device ID', device_id);
+      });
+      // Connect to the player!
+      console.log(this.player);
+      // Ready
+      this.player.on('ready', data => {
+        console.log('Ready with Device ID', data.device_id);
+        // Play a track using our new device ID
+        this.play(data.device_id);
+      });
+    }  
   }
 
 play(device_id) {
@@ -108,76 +143,74 @@ onNextClick() {
 }
 
   render() {
-
-    window.onSpotifyPlayerAPIReady = () => {
-      this.player = new Spotify.Player({
-        name: 'LAS Spotify Player',
-        getOAuthToken: cb => { cb(_token); }
-      });
-
-      // Error handling
-      this.player.on('initialization_error', e => console.error(e));
-      this.player.on('authentication_error', e => console.error(e));
-      this.player.on('account_error', e => console.error(e));
-      this.player.on('playback_error', e => console.error(e));
-
-      // Playback status updates
-      this.player.on('player_state_changed', state => {
-        console.log(state)
-        this.channel.push("current_song", { track: state.track_window.current_track.name,
-        image: state.track_window.current_track.album.images[0].url})
-          .receive("ok", this.gotView.bind(this));
-        $('#current-track').attr('src',     state.track_window.current_track.album.images[0].url);
-        $('#current-track-name').text(state.track_window.current_track.name);
-      });
-      this.player.connect();
-      this.player.addListener('ready', ({ device_id }) => {
-        console.log('The Web Playback SDK is ready to play music!');
-        console.log('Device ID', device_id);
-      });
-      // Connect to the player!
-      console.log(this.player);
-      // Ready
-      this.player.on('ready', data => {
-        console.log('Ready with Device ID', data.device_id);
-        // Play a track using our new device ID
-        this.play(data.device_id);
-      });
-    }
-    let count=0;
-    if (this.state.authorized) {
-      return (
-        <div className="row">
-          <div className="col-1"></div>
-          <div className="col-4">
-            <h4 className="mt-3">Song Queue</h4>
-            <div className="queue">
-              <div>
-                {this.state.song_queue.map((s) => <div className="card song-background" key={s.title+(count++).toString()}><strong className="party-song">{s.title}</strong></div>)}
+    console.log("length",this.state.users.length);
+    console.log("user_id and list", window.user_id, this.state.users);
+    if ((this.state.users.length < 2) && (this.state.users[0] == window.user_id)) {
+      let count=0;
+      if (this.state.authorized) {
+        return (
+          <div className="row">
+            <div className="col-1"></div>
+            <div className="col-4">
+              <h4 className="mt-3">Song Queue</h4>
+              <div className="queue">
+                <div>
+                  {this.state.song_queue.map((s) => <div className="card song-background" key={s.title+(count++).toString()}><strong className="party-song">{s.title}</strong></div>)}
+                </div>
+              </div>
+            </div>
+            <div className="col-1"></div>
+            <div className="col-6">
+              <p className="mt-3" id="current-song">
+                <strong>Currently Playing: </strong>{this.state.currently_playing[0]}
+              </p>
+              <img className="card login-page" src={this.state.currently_playing[1]}/>
+              <div className="mt-3" id="all-controls">
+                <div id="controls">
+                  <button className="mx-2" onClick={() => this.onBackClick()}><i className="fa fa-backward"/></button>
+                  <button className="mx-2" onClick={() => this.onPauseClick()}>{this.state.playing ? <i className="fa fa-pause"/> : <i className="fa fa-play"/>}</button>
+                  <button className="mx-2" onClick={() => this.onNextClick()}><i className="fa fa-forward"/></button>
+                </div>
               </div>
             </div>
           </div>
-          <div className="col-1"></div>
-          <div className="col-6">
-            <p className="mt-3" id="current-song">
-              <strong>Currently Playing: </strong>{this.state.currently_playing[0]}
-            </p>
-            <img className="card login-page" src={this.state.currently_playing[1]}/>
-            <div className="mt-3" id="all-controls">
-              <div id="controls">
-                <button className="mx-2" onClick={() => this.onBackClick()}><i className="fa fa-backward"/></button>
-                <button className="mx-2" onClick={() => this.onPauseClick()}>{this.state.playing ? <i className="fa fa-pause"/> : <i className="fa fa-play"/>}</button>
-                <button className="mx-2" onClick={() => this.onNextClick()}><i className="fa fa-forward"/></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    }
+        )
+      }
+      else {
+        return (
+          <div></div>
+        )
+      };
+    } 
     else {
-      return (
-        <div></div>
-      )
-    };
+      let count=0;
+      if (this.state.authorized) {
+        return (
+          <div className="row">
+            <div className="col-1"></div>
+            <div className="col-4">
+              <h4 className="mt-3">Song Queue</h4>
+              <div className="queue">
+                <div>
+                  {this.state.song_queue.map((s) => <div className="card song-background" key={s.title+(count++).toString()}><strong className="party-song">{s.title}</strong></div>)}
+                </div>
+              </div>
+            </div>
+            <div className="col-1"></div>
+            <div className="col-6">
+              <p className="mt-3" id="current-song">
+                <strong>Currently Playing: </strong>{this.state.currently_playing[0]}
+              </p>
+              <img className="card login-page" src={this.state.currently_playing[1]}/>
+            </div>
+          </div>
+        )
+      }
+      else {
+        return (
+          <div></div>
+        )
+      };
+    }
   }
 }
