@@ -19,6 +19,8 @@ defmodule LasWeb.SessionController do
   def delete(conn, _params) do
     conn
     |> delete_session(:user_id)
+    |> delete_session(:current_login_user)
+    |> delete_session(:current_user)
     |> put_flash(:info, "Succesfully logged out.")
     |> redirect(to: Routes.page_path(conn, :index))
   end
