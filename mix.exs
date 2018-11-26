@@ -49,6 +49,7 @@ defmodule Las.MixProject do
       {:oauth2, "~> 0.9"},
       {:comeonin, "~> 4.1"},
       {:argon2_elixir, "~> 1.3"},
+      {:distillery, "~> 2.0"},
     ]
   end
 
