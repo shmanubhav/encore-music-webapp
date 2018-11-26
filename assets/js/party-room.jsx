@@ -67,6 +67,7 @@ class Party extends React.Component {
     console.log(view.view)
     this.setState(view.view);
     window.onSpotifyPlayerAPIReady = () => {
+      console.log("intialize");
       this.player = new Spotify.Player({
         name: 'LAS Spotify Player',
         getOAuthToken: cb => { cb(_token); }
@@ -145,7 +146,7 @@ onNextClick() {
   render() {
     console.log("length",this.state.users.length);
     console.log("user_id and list", window.user_id, this.state.users);
-    if ((this.state.users.length < 2) && (this.state.users[0] == window.user_id)) {
+    if ((this.state.users.length < 2) && ((this.state.users)[0] == window.user_id.toString())) {
       let count=0;
       if (this.state.authorized) {
         return (
