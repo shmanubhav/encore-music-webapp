@@ -22,3 +22,5 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
   * Spotify Web Playback SDK (beta): https://developer.spotify.com/documentation/web-playback-sdk/
   
   * Spotify Terms of Use: https://developer.spotify.com/terms/
+  
+all of the audio and images used are from Spotify.
