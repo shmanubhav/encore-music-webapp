@@ -112,7 +112,7 @@ onNextClick() {
       window.onSpotifyPlayerAPIReady = () => {
         console.log("intialize");
         this.player = new Spotify.Player({
-          name: 'LAS Spotify Player',
+          name: 'Encore Spotify Player',
           getOAuthToken: cb => { cb(_token); }
         });
   
