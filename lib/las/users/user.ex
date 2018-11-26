@@ -21,6 +21,6 @@ defmodule Las.Users.User do
     |> cast(attrs, [:email, :first_name, :last_name, :password_hash, :admin, :token])
     |> unique_constraint(:email)
     |> validate_required([:email, :first_name, :last_name, :password_hash, :admin])
-
+    |> validate_format(:email, ~r/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)
   end
 end

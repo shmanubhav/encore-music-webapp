@@ -8,7 +8,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>LAS App · Phoenix Framework</title>
+    <title>Encore</title>
     <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
@@ -25,7 +25,7 @@
       <div class="container-fluid" id="nav-color">
           <nav class="row navbar navbar-expand-lg">
               <div class="col-9">
-              <a class="navbar-brand text-white" href="/">LAS</a>
+              <a class="navbar-brand text-white" href="/">Encore</a>
               </div>
               <div class="col-3">
                 <a class="navbar-brand text-white" href="/users/<%=@current_login_user.id%>">Your Profile</a>
