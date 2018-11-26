@@ -16,7 +16,8 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
   * Source: https://github.com/phoenixframework/phoenix
 
 
-API References:
+# API References:
+
   * Spotify API for developers: https://developer.spotify.com/documentation/
   * Spotify Web Playback SDK (beta): https://developer.spotify.com/documentation/web-playback-sdk/
   
