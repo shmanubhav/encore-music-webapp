@@ -1,6 +1,6 @@
-# Las
+## Encore
 
-To start your Phoenix server:
+To start the project:
 
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
@@ -9,10 +9,6 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
   * Official website: http://www.phoenixframework.org/
   * Guides: https://hexdocs.pm/phoenix/overview.html
   * Docs: https://hexdocs.pm/phoenix
@@ -20,5 +16,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Source: https://github.com/phoenixframework/phoenix
 
 
-Terms of Service to keep track of
-  * https://developer.spotify.com/community/news/2017/11/22/we-are-updating-our-developer-terms-of-service/
+API References:
+  * Spotify API for developers: https://developer.spotify.com/documentation/
+  * Spotify Web Playback SDK (beta): https://developer.spotify.com/documentation/web-playback-sdk/
+  
