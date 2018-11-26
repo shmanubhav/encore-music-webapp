@@ -1,6 +1,7 @@
 defmodule Las.Party do
 
   alias Las.Songs.Song
+  #alias Las.RoomSongs
 
   def new do
     %{
@@ -22,6 +23,18 @@ defmodule Las.Party do
       party_name: ""
     }
   end
+
+  #TODO Fix or remove
+  # def get_song_queue(game) do
+  #   room = Las.Rooms.get_room_by_name(game.party_name)
+  #   IO.puts("__________________________")
+  #
+  #   rooms = Las.RoomSongs.get_queue(room.id)
+  #   IO.inspect(rooms)
+  #   songs = Enum.map(rooms, fn x -> x["song"]  # also tried songs = Enum.map(rooms, fn x -> Access.key!(:song)
+  #     end)
+  #   IO.inspect(songs)
+  # end
 
   def set_party_name(game, name) do
     game
@@ -49,7 +62,10 @@ defmodule Las.Party do
     if Enum.member?(game.users, user) == false do
       users = game.users ++ [user]
       login_user = Las.Users.get_user!(user)
-      recently_played = Song.recently_played(login_user.token).songs
+
+      case Song.recently_played(login_user.token) do
+        {:songs, songs } ->
+          recently_played = songs.songs
 
       # Add these songs to Song DB.
       Enum.map(recently_played, fn x ->
@@ -72,6 +88,7 @@ defmodule Las.Party do
       game
       |> Map.put(:users, users)
       |> Map.put(:song_queue, List.flatten(songs))
+    end
     else
       game
     end
