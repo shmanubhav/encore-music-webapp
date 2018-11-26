@@ -8,7 +8,7 @@ defmodule Spotify do
       strategy: __MODULE__,
       client_id: System.get_env("SPOTIFY_CLIENT_ID"),
       client_secret: System.get_env("SPOTIFY_CLIENT_SECRET"),
-      redirect_uri: "http://localhost:4000/auth/spotify/callback/",
+      redirect_uri: "https://encore.sreeyasai.info/auth/spotify/callback/",
       site: "https://api.spotify.com",
       authorize_url: "https://accounts.spotify.com/authorize",
       token_url: "https://accounts.spotify.com/api/token"

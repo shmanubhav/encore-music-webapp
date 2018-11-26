@@ -29,8 +29,8 @@ let _token = hash.access_token;
 const authEndpoint = 'https://accounts.spotify.com/authorize';
 
 // Replace with your app's client ID, redirect URI and desired scopes
-const clientId = '597e9f9fad654c41b818b7ab1bc7f0b4';
-const redirectUri = 'http://localhost:4000/auth/spotify/callback/';
+const clientId = '89c07b366d364483851512fc85002c6a';
+const redirectUri = 'https://encore.sreeyasai.info/auth/spotify/callback/';
 const scopes = [
   'streaming',
   'user-read-birthdate',
@@ -48,7 +48,8 @@ class Party extends React.Component {
       song_queue: [],
       currently_playing: [],
       playing: true, // is the current song playing
-      party_name: ""
+      party_name: "",
+      playerReady: false
     }
 
     this.channel.join()
@@ -68,7 +69,55 @@ class Party extends React.Component {
     this.setState(view.view);
   }
 
+  componentDidMount() {
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      console.log("intialize");
+      this.player = new Spotify.Player({
+        name: 'Encore Spotify Player',
+        getOAuthToken: cb => { cb(_token); }
+      });
+      this.player.isLoaded.then(() => {
+      console.log("resolved")
+      // Error handling
+      this.player.connect().then((success) => { if(success) {
+        console.log("success")
+      }}).catch((error) => { console.log(error)});
+
+      this.player.on('initialization_error', e => console.error(e));
+      this.player.on('authentication_error', e => console.error(e));
+      this.player.on('account_error', e => console.error(e));
+      this.player.on('playback_error', e => console.error(e));
+
+
+
+
+      // Playback status updates
+      this.player.on('player_state_changed', state => {
+         console.log(state)
+         this.channel.push("current_song", { track: state.track_window.current_track.name,
+         image: state.track_window.current_track.album.images[0].url})
+           .receive("ok", this.gotView.bind(this));
+         $('#current-track').attr('src',     state.track_window.current_track.album.images[0].url);
+         $('#current-track-name').text(state.track_window.current_track.name);
+       });
+      
+      this.player.addListener('ready', ({ device_id }) => {
+        console.log('The Web Playback SDK is ready to play music!');
+        console.log('Device ID', device_id);
+      });
+      // Ready
+      this.player.on('ready', data => {
+        console.log('Ready with Device ID', data.device_id);
+        // Play a track using our new device ID
+        this.setState({ playerReady: true })
+        this.play(data.device_id)
+      });
+    }).catch((err) => { conole.log(err, "rejected")});
+  }
+}
+
 play(device_id) {
+  if(this.state.playerReady) {
   var uris = this.state.song_queue.map(function(song) {
     return song.uri
   });
@@ -83,6 +132,7 @@ play(device_id) {
      console.log(data)
    }
   });
+}
 }
 
 onPauseClick() {
@@ -108,43 +158,7 @@ onNextClick() {
 }
 
   render() {
-    if (true) {
-      window.onSpotifyPlayerAPIReady = () => {
-        console.log("intialize");
-        this.player = new Spotify.Player({
-          name: 'Encore Spotify Player',
-          getOAuthToken: cb => { cb(_token); }
-        });
-  
-        // Error handling
-        this.player.on('initialization_error', e => console.error(e));
-        this.player.on('authentication_error', e => console.error(e));
-        this.player.on('account_error', e => console.error(e));
-        this.player.on('playback_error', e => console.error(e));
-  
-        // Playback status updates
-        this.player.on('player_state_changed', state => {
-          console.log(state)
-          this.channel.push("current_song", { track: state.track_window.current_track.name,
-          image: state.track_window.current_track.album.images[0].url})
-            .receive("ok", this.gotView.bind(this));
-          $('#current-track').attr('src',     state.track_window.current_track.album.images[0].url);
-          $('#current-track-name').text(state.track_window.current_track.name);
-        });
-        this.player.connect();
-        this.player.addListener('ready', ({ device_id }) => {
-          console.log('The Web Playback SDK is ready to play music!');
-          console.log('Device ID', device_id);
-        });
-        // Connect to the player!
-        console.log(this.player);
-        // Ready
-        this.player.on('ready', data => {
-          console.log('Ready with Device ID', data.device_id);
-          // Play a track using our new device ID
-          this.play(data.device_id);
-        });
-      }  
+    if (this.state.playerReady) {
       let count=0;
       if (this.state.authorized) {
         return (
@@ -180,7 +194,7 @@ onNextClick() {
           <div></div>
         )
       };
-    } 
+    }
     else {
 
       let count=0;

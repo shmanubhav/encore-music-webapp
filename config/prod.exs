@@ -13,7 +13,7 @@ config :las, LasWeb.Endpoint,
   server: true,
   version: Application.spec(:phoenix_distillery, :vsn),
   http: [:inet6, port: System.get_env("PORT") || 4000],
-  url: [scheme: "https", host: "spotify.lindsayhauser.com", port: 443],
+  url: [scheme: "https", host: "encore.sreeyasai.info", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 
