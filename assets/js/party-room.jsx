@@ -29,8 +29,9 @@ let _token = hash.access_token;
 const authEndpoint = 'https://accounts.spotify.com/authorize';
 
 // Replace with your app's client ID, redirect URI and desired scopes
-const clientId = '89c07b366d364483851512fc85002c6a';
-const redirectUri = 'https://encore.sreeyasai.info/auth/spotify/callback/';
+const clientId = '';
+const redirectUri = '';
+
 const scopes = [
   'streaming',
   'user-read-birthdate',
@@ -100,7 +101,7 @@ class Party extends React.Component {
          $('#current-track').attr('src',     state.track_window.current_track.album.images[0].url);
          $('#current-track-name').text(state.track_window.current_track.name);
        });
-      
+
       this.player.addListener('ready', ({ device_id }) => {
         console.log('The Web Playback SDK is ready to play music!');
         console.log('Device ID', device_id);
